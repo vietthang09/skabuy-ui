@@ -3,7 +3,7 @@ import cookie from "react-cookies";
 export const getUser = async(token)=>{
     const res = await Axios({
         method: 'post',
-        url: 'http://localhost:5000/user/getUser',
+        url: 'https://nodejs.skabuy.com/user/getUser',
         data: {
             token: JSON.parse(token),
           },

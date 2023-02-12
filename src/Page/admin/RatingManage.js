@@ -31,7 +31,7 @@ export default function RatingManage() {
   const handleDeleteSale = async () => {
     const res = await Axios({
       method: "post",
-      url: "http://localhost:5000/shop/deleteSale",
+      url: "https://nodejs.skabuy.com/shop/deleteSale",
       data: {
         id: itemTmp.id,
       },

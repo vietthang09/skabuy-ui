@@ -31,7 +31,7 @@ export default function LoginAdmin() {
         try {
             const res = await Axios({
                 method: 'post',
-                url: 'http://localhost:5000/user/login',
+                url: 'https://nodejs.skabuy.com/user/login',
                 data: {
                     user_email: user_emaillg,
                     password: passwordlg
@@ -62,7 +62,7 @@ export default function LoginAdmin() {
     const finish = async(token)=>{
         const res = await Axios({
             method: 'post',
-            url: 'http://localhost:5000/user/getUser',
+            url: 'https://nodejs.skabuy.com/user/getUser',
             data: {
                 token: JSON.parse(token)
               },

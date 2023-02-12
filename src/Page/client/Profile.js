@@ -45,7 +45,7 @@ function Profile() {
     ) {
       showToast("WARNING", "Please fill in all the information");
     } else {
-      Axios.post("http://localhost:5000/user/editUser", userInfor).then(
+      Axios.post("https://nodejs.skabuy.com/user/editUser", userInfor).then(
         (response) => {
           let responseData = response.data;
           if (responseData.status == "success") {

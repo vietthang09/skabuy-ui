@@ -32,7 +32,7 @@ export default function CommentManage() {
   const handleDeleteSale = async () => {
     const res = await Axios({
       method: "post",
-      url: "http://localhost:5000/comment/deleteComment",
+      url: "https://nodejs.skabuy.com/comment/deleteComment",
       data: {
         comment_id: itemTmp.comment_id,
       },

@@ -54,7 +54,7 @@ function ShoppingCart(props) {
     } else {
       await Axios({
         method: "get",
-        url: `http://localhost:5000/voucher/getVoucherByCode/${voucherCode}`,
+        url: `https://nodejs.skabuy.com/voucher/getVoucherByCode/${voucherCode}`,
       }).then((result) => {
         const dataResponse = result.data;
         setVoucherInfor(dataResponse);

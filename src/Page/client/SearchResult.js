@@ -27,7 +27,7 @@ export default function SearchResult() {
       price: selectedPrice,
     };
     const encoded = btoa(JSON.stringify(data));
-    Axios.get(`http://localhost:5000/shop/search/${encoded}`).then(
+    Axios.get(`https://nodejs.skabuy.com/shop/search/${encoded}`).then(
       (response) => {
         const responseData = response.data;
         if (responseData.status == "error") {

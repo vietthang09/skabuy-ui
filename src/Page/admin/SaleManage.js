@@ -38,7 +38,7 @@ export default function SaleManage() {
   }, []);
 
   const getAllVoucher = () => {
-    Axios.get("http://localhost:5000/shop/getAllSale").then((responsive) => {
+    Axios.get("https://nodejs.skabuy.com/shop/getAllSale").then((responsive) => {
       if (responsive.data !== undefined) {
         setAllVoucher(responsive.data.data);
         console.log(responsive.data.data);
@@ -56,7 +56,7 @@ export default function SaleManage() {
       console.log(date_start, expired)
       const res = await Axios({
         method: "post",
-        url: "http://localhost:5000/shop/updateTimeSale",
+        url: "https://nodejs.skabuy.com/shop/updateTimeSale",
         data: {
           date_start: date_start,
           expired: expired,
@@ -84,7 +84,7 @@ export default function SaleManage() {
     setloadingTable(true);
     const res = await Axios({
       method: "post",
-      url: "http://localhost:5000/shop/updateQuanitySale",
+      url: "https://nodejs.skabuy.com/shop/updateQuanitySale",
       data: {
         quantity: e,
         id: id,
@@ -110,7 +110,7 @@ export default function SaleManage() {
     setloadingBtn(true);
     const res = await Axios({
       method: "post",
-      url: "http://localhost:5000/shop/addPromotion",
+      url: "https://nodejs.skabuy.com/shop/addPromotion",
       data: {
         data: dataAddSale,
       },
@@ -253,7 +253,7 @@ export default function SaleManage() {
   const handleDeleteSale = async () => {
     const res = await Axios({
       method: "post",
-      url: "http://localhost:5000/shop/deleteSale",
+      url: "https://nodejs.skabuy.com/shop/deleteSale",
       data: {
         id: itemTmp.id,
       },
