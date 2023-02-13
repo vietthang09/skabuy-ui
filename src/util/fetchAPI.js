@@ -2,10 +2,10 @@ import axios from "axios";
 import Axios from "axios";
 
 export const sendPostRequest = (url, data) => {
-  return axios.post(url, data).then((result) => result.data);
+  return axios.post(url, data, {headers:{"Content-Type" : "application/json"}}).then((result) => result.data);
 };
 export const sendGetRequest = (url) => {
-  return axios.get(url).then((result) => result.data);
+  return axios.get(url, {headers:{"Content-Type" : "application/json"}}).then((result) => result.data);
 };
 export const getRequest = (url) => {
   Axios.get(url).then((response) => {
