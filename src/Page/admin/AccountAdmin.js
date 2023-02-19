@@ -136,7 +136,7 @@ export default function AccountAdmin() {
   const updateStatusUser = async (e, id) => {
     const res = await Axios({
       method: "post",
-      url: "http://localhost:5000/user/updateStatusUser",
+      url: "https://nodejs.skabuy.com/user/updateStatusUser",
       data: {
         user_id: id,
         status: e,
@@ -192,7 +192,7 @@ export default function AccountAdmin() {
     setloadingBtn(true);
     const res = await Axios({
       method: "post",
-      url: "http://localhost:5000/user/addAccount",
+      url: "https://nodejs.skabuy.com/user/addAccount",
       data: {
         data: dataAdd,
       },

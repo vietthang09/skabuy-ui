@@ -62,7 +62,7 @@ const Products = ({ products, setUpdate }) => {
       ) : (
         <div className="row">
           {products.map((product, index) => (
-            <div className="col-6 col-lg-3" key={index}>
+            <div className="col-6 col-lg-3 mb-3" key={index}>
               <Product product={product} />
             </div>
           ))}

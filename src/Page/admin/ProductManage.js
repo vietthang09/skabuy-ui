@@ -157,7 +157,7 @@ export default function ProductManage() {
               height: 100,
               objectFit: "contain",
             }}
-            src={`http://localhost:3000/${record.product_image}`}
+            src={`https://skabuy.com/${record.product_image}`}
           />
         );
       },
