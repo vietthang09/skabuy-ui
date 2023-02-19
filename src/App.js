@@ -4,6 +4,7 @@ import {
   Route,
   Link,
   useNavigate,
+  NavLink,
 } from "react-router-dom";
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import Home from "./Page/client/Home";
@@ -34,6 +35,13 @@ import AccountVerification from "./Page/client/AccountVerification";
 import Wishlist from "./Page/client/Wishlist";
 import ChatBotPage from "./ChatBotPage";
 import { sendGetRequest } from "./util/fetchAPI";
+import {
+  HeartOutlined,
+  HomeOutlined,
+  SearchOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 function App() {
   const userRedux = useSelector((state) => state.user);
@@ -182,61 +190,46 @@ function App() {
   const Header = () => (
     <div>
       <div className="d-lg-none">
-        <div className="d-flex">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search for products"
-            onKeyDown={(e) => onKeyDownHandler(e)}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
-          <button
-            className="input-group-text text-primary bg-info"
-            onClick={() => onSearchHandler()}
-          >
-            <i className="fa fa-search" style={{ color: "#fff" }}></i>
-          </button>
+        <div className="d-flex justify-content-between align-items-center px-2 py-2 fixed-top bg-info">
+          <Link to="/" className="text-decoration-none">
+            <span className="text-uppercase text-info bg-white px-1">HLE</span>
+            <span className="text-uppercase text-white bg-info">Shop</span>
+          </Link>
+
+          <div className="bg-white py-1 mx-3 px-2 d-flex align-items-center rounded-pill w-auto">
+            <input
+              type="text"
+              className="rounded-pill border-0 w-100"
+              placeholder="Search"
+              onKeyDown={(e) => onKeyDownHandler(e)}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+            <SearchOutlined
+              className="text-info"
+              onClick={() => onSearchHandler()}
+            />
+          </div>
+
+          <Link to="/shoppingcart">
+            <ShoppingCartOutlined
+              className="text-white"
+              style={{ fontSize: 24 }}
+            />
+          </Link>
         </div>
 
-        <div className="fixed-bottom px-3 py-2 bg-white">
-          {!checkLogin ? (
+        <div className="fixed-bottom px-3 py-2 bg-white border-top">
+          {checkLogin ? (
             <div className="d-flex justify-content-between">
-              <Link to="/">
-                <i
-                  class="fa fa-home text-primary"
-                  style={{
-                    fontSize: "24px",
-                  }}
-                  aria-hidden="true"
-                ></i>
-              </Link>
-              <Link to="/shoppingcart">
-                <i
-                  className="fas fa-shopping-cart"
-                  style={{
-                    fontSize: "24px",
-                  }}
-                  aria-hidden="true"
-                ></i>
-              </Link>
-              <Link to="/wishlist">
-                <i
-                  className="fas fa-heart"
-                  style={{
-                    fontSize: "24px",
-                  }}
-                  aria-hidden="true"
-                ></i>
-              </Link>
-              <Link to="/profile">
-                <i
-                  class="fa fa-user"
-                  style={{
-                    fontSize: "24px",
-                  }}
-                  aria-hidden="true"
-                ></i>
-              </Link>
+              <NavLink to="/">
+                <HomeOutlined style={{ fontSize: 24 }} />
+              </NavLink>
+              <NavLink to="/wishlist">
+                <HeartOutlined style={{ fontSize: 24 }} />
+              </NavLink>
+              <NavLink to="/profile">
+                <UserOutlined style={{ fontSize: 24 }} />
+              </NavLink>
             </div>
           ) : (
             <Link
@@ -552,9 +545,9 @@ function App() {
   return (
     <>
       {Header()}
-      {body()}
+      <div className="my-5"> {body()}</div>
       {footer()}
-      {/* <div className="chatbot">{ChatBotPage()}</div> */}
+      <div className="chatbot">{ChatBotPage()}</div>
     </>
   );
 }

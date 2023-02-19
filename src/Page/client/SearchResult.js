@@ -75,17 +75,13 @@ export default function SearchResult() {
   return (
     <>
       <div className="container-fluid">
-        <div className="row px-xl-5 mb-3">
-          <div className="col-12">
-            <span>{`Found ${productList.length} ${
-              productList.length > 1 ? "products" : "product"
-            } with keyword "${keyword}" `}</span>
-          </div>
-        </div>
+        <span>{`Found ${productList.length} ${
+          productList.length > 1 ? "products" : "product"
+        } with keyword "${keyword}" `}</span>
       </div>
 
       <div className="container-fluid">
-        <div className="row px-xl-5">
+        <div className="row">
           <div className="col-lg-3 col-md-4">
             <h5 className="section-title position-relative text-uppercase mb-3">
               <span className="bg-secondary pr-3">Filter by price</span>
@@ -118,44 +114,42 @@ export default function SearchResult() {
           </div>
 
           <div className="col-lg-9 col-md-8">
-            <div className="row pb-3">
-              <div className="col-12 pb-1">
-                <div className="d-flex align-items-center justify-content-between mb-4">
-                  <div></div>
-                  <div className="ml-2">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-light dropdown-toggle"
-                        data-toggle="dropdown"
-                      >
-                        Sorting
-                      </button>
-                      <div className="dropdown-menu dropdown-menu-right">
-                        <Link className="dropdown-item" to="#">
-                          Latest
-                        </Link>
-                        <Link className="dropdown-item" to="#">
-                          Popularity
-                        </Link>
-                        <Link className="dropdown-item" to="#">
-                          Best Rating
-                        </Link>
-                      </div>
+            <div className="col-12 pb-1">
+              <div className="d-flex align-items-center justify-content-between mb-4">
+                <div></div>
+                <div className="ml-2">
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-light dropdown-toggle"
+                      data-toggle="dropdown"
+                    >
+                      Sorting
+                    </button>
+                    <div className="dropdown-menu dropdown-menu-right">
+                      <Link className="dropdown-item" to="#">
+                        Latest
+                      </Link>
+                      <Link className="dropdown-item" to="#">
+                        Popularity
+                      </Link>
+                      <Link className="dropdown-item" to="#">
+                        Best Rating
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <Products products={currentProducts} />
-              <div className="col-12">
-                <Pagination
-                  totalProducts={productList.length}
-                  productsPerPage={productsPerPage}
-                  setCurrentPage={setCurrentPage}
-                  currentPage={currentPage}
-                />
-              </div>
             </div>
+            <div className="px-3">
+              <Products products={currentProducts} />
+            </div>
+            <Pagination
+              totalProducts={productList.length}
+              productsPerPage={productsPerPage}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
           </div>
         </div>
       </div>

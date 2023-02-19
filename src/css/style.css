@@ -6,6 +6,9 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
  /* Chrome, Safari, Edge, Opera */
+figure.image img {
+  width: 80vw;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -9720,6 +9723,8 @@ a.text-dark:hover, a.text-dark:focus {
   z-index: 11;
   animation: action 1s infinite alternate;
 }
+
+
 
 @keyframes action {
   0% {
