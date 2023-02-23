@@ -9557,7 +9557,6 @@ a.text-dark:hover, a.text-dark:focus {
 
 .carousel-indicators li {
   width: 15px;
-  height: 15px;
   margin: 0 3px 12px 3px;
   background: transparent;
   border: 1px solid #FFFFFF;
@@ -9637,10 +9636,6 @@ a.text-dark:hover, a.text-dark:focus {
   transform: scale(1.2) rotate(5deg);
 }
 
-.product-item {
-  transition: .5s;
-}
-
 .product-action {
   position: absolute;
   width: 100%;
@@ -9658,50 +9653,6 @@ a.text-dark:hover, a.text-dark:focus {
   margin: 0 3px;
   margin-top: 100px;
   opacity: 0;
-}
-
-.product-item:hover {
-  box-shadow: 0 0 30px #DDDDDD;
-}
-
-.product-item:hover .product-action {
-  background: rgba(255, 255, 255, 0.7);
-}
-
-.product-item:hover .product-action a.btn:first-child {
-  opacity: 1;
-  margin-top: 0;
-  transition: .3s 0s;
-}
-
-.product-item:hover .product-action a.btn:nth-child(2) {
-  opacity: 1;
-  margin-top: 0;
-  transition: .3s .05s;
-}
-
-.product-item:hover .product-action a.btn:nth-child(3) {
-  opacity: 1;
-  margin-top: 0;
-  transition: .3s .1s;
-}
-
-.product-item:hover .product-action a.btn:nth-child(4) {
-  opacity: 1;
-  margin-top: 0;
-  transition: .3s .15s;
-}
-
-.product-item .product-img img {
-  transition: .5s;
-}
-
-.product-item:hover .product-img img {
-  transform: scale(1.2);
-}
-
-.product-item .btn:hover {
-  color: #17a2b8 !important;
 }
 
 .table.table-borderless thead tr,

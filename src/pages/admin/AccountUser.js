@@ -3,7 +3,7 @@ import { Table, Select, message, Button, Modal } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { formatbirthday, showToast } from "../../util/helper";
-import Spinner from "../../Page/client/components/spinner";
+import Spinner from "../../pages/client/components/spinner";
 import { getColumnSearchProps } from "./components/SearchFilter";
 import EditUserModel from "./components/EditUserModel";
 import { sendGetRequest, sendPostRequest } from "../../util/fetchAPI";

@@ -6,7 +6,7 @@ import logoevening from "../../img/evening.png";
 import logomorning from "../../img/morning.png";
 import logoafternoon from "../../img/afternoon.png";
 import { formatdolla, showToast } from "../../util/helper";
-import Spinner from "../../Page/client/components/spinner";
+import Spinner from "../../pages/client/components/spinner";
 const { RangePicker } = DatePicker;
 import dayjs from "dayjs";
 import { sendPostRequest } from "../../util/fetchAPI";

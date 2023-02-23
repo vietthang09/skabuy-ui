@@ -11,7 +11,7 @@ import {
 } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
-import Spinner from "../../Page/client/components/spinner";
+import Spinner from "../../pages/client/components/spinner";
 import { getColumnSearchProps } from "./components/SearchFilter";
 import {
   InfoCircleOutlined,

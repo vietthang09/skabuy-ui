@@ -2,15 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { Table, message, Button, Modal } from "antd";
 import Axios from "axios";
 import { useSelector } from "react-redux";
-import Spinner from "../../Page/client/components/spinner";
+import Spinner from "../../pages/client/components/spinner";
 import moment from "moment";
 import { sendGetRequest } from "../../util/fetchAPI";
 import { baseURL } from "../../util/constants";
-import { formatdolla, showToast } from "../../util/helper";
+import { formatbirthday, formatdate, showToast } from "../../util/helper";
 import { getColumnSearchProps } from "./components/SearchFilter";
+import dayjs from 'dayjs';
 
-export default function RatingManage() {
-  const [rating, setRating] = useState([]);
+export default function CommentManage() {
+  const [comments, setComments] = useState([]);
   const [loadingTable, setloadingTable] = useState(false);
   const searchInput = useRef();
   const [showContent, setshowContent] = useState(false);
@@ -19,10 +20,10 @@ export default function RatingManage() {
   const [itemTmp, setitemTmp] = useState();
 
   async function loadComments() {
-    const response = await sendGetRequest(`${baseURL}/comment/allRating`);
+    const response = await sendGetRequest(`${baseURL}/comment/all`);
     if (response.status == "success") {
-        setRating(response.data);
-        setshowContent(true);
+      setComments(response.data);
+      setshowContent(true);
     } else {
       showToast("ERROR", "There are some mistake!");
     }
@@ -31,16 +32,17 @@ export default function RatingManage() {
   const handleDeleteSale = async () => {
     const res = await Axios({
       method: "post",
-      url: "https://nodejs.skabuy.com/shop/deleteSale",
+      url: "https://nodejs.skabuy.com/comment/deleteComment",
       data: {
-        id: itemTmp.id,
+        comment_id: itemTmp.comment_id,
       },
     }).then((result) => result.data);
-    if (res.msg) {
-      if (res.msg === "Success") {
-        message.success("Successful code removal");
+    console.log(res)
+    if (res.status) {
+      if (res.status === "success") {
+        message.success("Successful");
         setshowModalDelete(false);
-        getAllVoucher();
+        loadComments();
       } else {
         message.error("There's a mistake !!");
         setshowModalDelete(false);
@@ -52,7 +54,7 @@ export default function RatingManage() {
     <div>
       {showModalDelete && (
         <Modal
-          title={`Delete product ${itemTmp.code_sale}`}
+          title={`Delete comment ${itemTmp.comment_id}`}
           visible={showModalDelete}
           onCancel={() => {
             setshowModalDelete(false);
@@ -61,13 +63,23 @@ export default function RatingManage() {
           cancelText="Exit"
           okText="Chắc chắn"
         >
-          <p>Are you sure you want to delete this promo code.</p>
+          <p>Are you sure you want to delete this comment.</p>
         </Modal>
       )}
     </div>
   );
 
   const columns = [
+    {
+      title: "Email",
+      key: "user_email",
+      ...getColumnSearchProps("user_email", searchInput),
+    },
+    {
+      title: "Full name",
+      key: "user_fullname",
+      ...getColumnSearchProps("user_fullname", searchInput),
+    },
     {
       title: "Product image",
       key: "product_image",
@@ -83,39 +95,34 @@ export default function RatingManage() {
       ...getColumnSearchProps("product_name", searchInput),
     },
     {
-      title: "Price",
-      key: "product_price",
-      sorter: (a, b) => a.product_price - b.product_price,
-      render: (record) => (
-        <span>
-          {formatdolla(record.product_price, "$")}
-        </span>
-      ),
+      title: "Comment",
+      key: "comment_content",
+      render: (record) => <span>{record.comment_content}</span>,
     },
     {
       title: "Rating",
-      key: "rating",
-      sorter: (a, b) => a.rating - b.rating,
+      key: "comment_star",
+      sorter: (a, b) => a.comment_star - b.comment_star,
       render: (record) => (
         <span>
           {[...Array(5)].map((star, innerIndex) => {
-            if (record.rating >= 4) {
+            if (record.comment_star >= 4) {
               return (
                 <i
                   style={{ color: "#17A2B8" }}
                   key={innerIndex}
                   className={`${
-                    innerIndex < record.rating ? "fas" : "far"
+                    innerIndex < record.comment_star ? "fas" : "far"
                   } fa-star`}
                 ></i>
               );
-            } else if (record.rating < 4 && record.rating >= 3) {
+            } else if (record.comment_star < 4 && record.comment_star >= 3) {
               return (
                 <i
                   style={{ color: "#FFD700" }}
                   key={innerIndex}
                   className={`${
-                    innerIndex < record.rating ? "fas" : "far"
+                    innerIndex < record.comment_star ? "fas" : "far"
                   } fa-star`}
                 ></i>
               );
@@ -125,13 +132,32 @@ export default function RatingManage() {
                   style={{ color: "red" }}
                   key={innerIndex}
                   className={`${
-                    innerIndex < record.rating ? "fas" : "far"
+                    innerIndex < record.comment_star ? "fas" : "far"
                   } fa-star`}
                 ></i>
               );
             }
           })}
         </span>
+      ),
+    },
+    {
+      title: "Time",
+      key: "create_at",
+      render: (record) => <span>{formatdate(record.created_at)}</span>,
+    },
+    {
+      title: "Edit",
+      key: "edit",
+      render: (record) => (
+        <Button
+          onClick={() => {
+            setshowModalDelete(true);
+            setitemTmp(record);
+          }}
+        >
+          Xóa
+        </Button>
       ),
     },
   ];
@@ -143,18 +169,18 @@ export default function RatingManage() {
   return (
     <>
       <div className="bg-white p-3 rounded">
-        <h5 className="mb-3">Manage Ratings</h5>
+        <h5 className="mb-3">Manage Comments</h5>
         {showContent ? (
           <div>
             <Table
               showSorterTooltip={{ title: "Tap to sort" }}
               columns={columns}
-              dataSource={rating} 
+              dataSource={comments}
               loading={loadingTable}
               style={overflowX ? { overflowX: "scroll" } : null}
             />
 
-            {/* {ModalDeleteSale()} */}
+            {ModalDeleteSale()}
           </div>
         ) : (
           <Spinner spinning={!showContent} />

@@ -14,7 +14,7 @@ import {
 import { Layout, Menu } from "antd";
 import cookie from "react-cookies";
 import { ToastContainer, toast } from "react-toastify";
-import Spinner from "../../Page/client/components/spinner";
+import Spinner from "../../pages/client/components/spinner";
 import HomeAdmin from "./HomeAdmin";
 import AccountUser from "./AccountUser";
 import AccountAdmin from "./AccountAdmin";

@@ -13,7 +13,7 @@ import {
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import Spinner from "../../Page/client/components/spinner";
+import Spinner from "../../pages/client/components/spinner";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { getColumnSearchProps } from "./components/SearchFilter";
