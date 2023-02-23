@@ -301,12 +301,12 @@ export default function DetailShop() {
                       fill="#30CD60"
                     ></path>
                   </svg>
-                  <div className="col-10">Sản phẩm được miễn phí giao hàng</div>
+                  <div className="col-10">Products are free shipping</div>
                 </div>
                 <div className="css-rfz8yf p-1">
                   <div className="css-72jdkq">
                     <div>
-                      <h5>Chính sách bán hàng</h5>
+                      <h5>Sales policy</h5>
                     </div>
                     <div className="d-flex">
                       <img
@@ -315,7 +315,7 @@ export default function DetailShop() {
                         decoding="async"
                         style={{ width: "24px", height: "auto" }}
                       />
-                      Miễn phí giao hàng cho đơn hàng từ 800K
+                      Free shipping for orders from $40
                     </div>
                     <div className="d-flex">
                       <img
@@ -324,7 +324,7 @@ export default function DetailShop() {
                         decoding="async"
                         style={{ width: "24px", height: "auto" }}
                       />
-                      Cam kết hàng chính hãng 100%
+                      100% genuine guarantee
                     </div>
                     <div className="d-flex">
                       <img
@@ -333,13 +333,13 @@ export default function DetailShop() {
                         decoding="async"
                         style={{ width: "24px", height: "auto" }}
                       />
-                      Đổi trả trong vòng 10 ngày
+                      Return within 10 days
                     </div>
                   </div>
                   <br />
                   <div className="css-14ocrck">
                     <div type="subtitle" className="css-1jemsp9">
-                      <h5>Dịch vụ khác</h5>
+                      <h5>Other services</h5>
                     </div>
                     <div className="d-flex">
                       <svg
@@ -359,7 +359,7 @@ export default function DetailShop() {
                           fill="#82869E"
                         ></path>
                       </svg>
-                      Sửa chữa đồng giá 150.000đ.
+                      Repair same price 7$
                     </div>
                     <div className="d-flex">
                       <svg
@@ -379,7 +379,7 @@ export default function DetailShop() {
                           fill="#82869E"
                         ></path>
                       </svg>
-                      Vệ sinh máy tính, laptop.
+                      Computer and laptop cleaning.
                     </div>
                     <div className="d-flex">
                       <svg
@@ -399,7 +399,7 @@ export default function DetailShop() {
                           fill="#82869E"
                         ></path>
                       </svg>
-                      Bảo hành tại nhà.
+                      Home warranty.
                     </div>
                   </div>
                 </div>
