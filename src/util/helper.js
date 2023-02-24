@@ -90,7 +90,7 @@ export const formatdolla = (n, currency) => {
   );
 };
 
-export const calculateDiscountByPercent = (total, discount) => {
+export const discountPrice = (total, discount) => {
   return total - (total / 100) * discount;
 };
 

@@ -3,7 +3,7 @@ import TabPane from "antd/es/tabs/TabPane";
 import { Link } from "react-router-dom";
 import { Modal } from "antd";
 import {
-  calculateDiscountByPercent,
+  discountPrice,
   formatdate,
   formatdolla,
   showToast,
@@ -220,7 +220,7 @@ export const OrderBox = () => {
                         <h5>
                           {`${formatdolla(
                             item.product_discount
-                              ? calculateDiscountByPercent(
+                              ? discountPrice(
                                   item.product_price,
                                   item.product_discount
                                 )
@@ -233,7 +233,7 @@ export const OrderBox = () => {
                         <h5>
                           {formatdolla(
                             item.product_discount
-                              ? calculateDiscountByPercent(
+                              ? discountPrice(
                                   item.product_price,
                                   item.product_discount
                                 ) * item.quantity
@@ -266,7 +266,7 @@ export const OrderBox = () => {
                     <div className="col-md-2">Voucher:</div>
                     <div className="col-md-2">{`- ${formatdolla(
                       currentOrder.total_price -
-                        calculateDiscountByPercent(
+                        discountPrice(
                           currentOrder.total_price,
                           currentOrder.discount
                         ),

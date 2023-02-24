@@ -11,7 +11,7 @@ import * as CONSTANTS from "../../util/constants";
 import { useDispatch } from "react-redux";
 import Axios from "axios";
 import {
-  calculateDiscountByPercent,
+  discountPrice,
   calculateTotalPrice,
   formatdolla,
   getVoucherStatus,
@@ -60,7 +60,7 @@ function ShoppingCart(props) {
         setVoucherInfor(dataResponse);
         if (dataResponse.status == 3) {
           setTotalPayment(
-            calculateDiscountByPercent(
+            discountPrice(
               subtotal + 5,
               dataResponse.voucher_infor.discount
             )

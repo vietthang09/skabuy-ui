@@ -10,14 +10,14 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   formatdolla,
   showToast,
-  calculateDiscountByPercent,
+  discountPrice,
 } from "../../util/helper";
 import CommentList from "./components/CommentList";
 import Pagination from "./components/Pagination";
 import { baseURL } from "../../util/constants";
 import CharacterictisBox from "./components/CharacterictisBox";
 import Stars from "./components/Stars";
-import Product from "./components/Product";
+import ProductItem from "../../components/ProductItem";
 import Slider from "react-slick";
 var lastCommentIndex;
 var firstCommentIndex;
@@ -235,7 +235,7 @@ export default function DetailShop() {
                     <>
                       <h3 className="font-weight-semi-bold mb-4">
                         {formatdolla(
-                          calculateDiscountByPercent(
+                          discountPrice(
                             productInfor.product_price,
                             productInfor.product_discount
                           ),
@@ -522,7 +522,7 @@ export default function DetailShop() {
             </h2>
             <Slider {...sliderSettings}>
               {recommendProducts.map((item) => {
-                return <Product product={item} />;
+                return <ProductItem product={item} />;
               })}
             </Slider>
           </div>

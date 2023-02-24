@@ -1,29 +1,51 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { formatdolla } from "../../../util/helper";
-import Stars from "./Stars";
-const Product = ({ product }) => {
-  // const PriceDiscount = (price, discount) => {
-  //   var prdc = price - price * (discount / 100);
-  //   return prdc;
-  // };
+import { discountPrice, formatdolla } from "../util/helper";
+// import Stars from "./Stars";
+export default function ProductItem({ product }) {
   return (
     <Link to={`/detailshop/${product.product_slug}`}>
-      <div className="product-item">
+      <div className="product-item rounded">
         <div className="product-item_content">
-          <img className="product-item_image" src={product.product_image} />
+          {product.product_discount > 0 && (
+            <span className="product-item_promo-flag">Instant Savings</span>
+          )}
+          <div className="d-flex justify-content-center">
+            <img className="product-item_image" src={product.product_image} />
+          </div>
           <h6 className="product-item_title">{product.product_name}</h6>
-          <div>
-            <span className="product-item_saving">
-              {`Save ${formatdolla(product.product_price, "$")}`}{" "}
-            </span>
-            <span className="product-item_saving_line">
+          {product.product_discount > 0 ? (
+            <>
+              <span className="product-item_saving">
+                {`Save ${formatdolla(
+                  product.product_price -
+                    discountPrice(
+                      product.product_price,
+                      product.product_discount
+                    ),
+                  "$"
+                )}`}
+              </span>
+              <span className="product-item_price">
+                {formatdolla(
+                  discountPrice(
+                    product.product_price,
+                    product.product_discount
+                  ),
+                  "$"
+                )}
+              </span>
+              <sup>
+                <span className="ml-1 product-item_saving_line">
+                  {formatdolla(product.product_price, "$")}
+                </span>
+              </sup>
+            </>
+          ) : (
+            <span className="product-item_price">
               {formatdolla(product.product_price, "$")}
             </span>
-          </div>
-          <span className="product-item_price">
-            {formatdolla(product.product_price, "$")}
-          </span>
+          )}
         </div>
       </div>
     </Link>
@@ -83,6 +105,4 @@ const Product = ({ product }) => {
     //   </Link>
     // </>
   );
-};
-
-export default Product;
+}

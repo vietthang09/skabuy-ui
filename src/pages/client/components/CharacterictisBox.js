@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { buyProduct } from "../../../redux/actions/buyProduct";
-import { calculateDiscountByPercent, showToast } from "../../../util/helper";
+import { discountPrice, showToast } from "../../../util/helper";
 
 export default function CharacterictisBox({ productInfo, characterictis }) {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export default function CharacterictisBox({ productInfo, characterictis }) {
           product_image: productInfo.product_image,
           product_name: productInfo.product_name,
           price: productInfo.product_discount
-            ? calculateDiscountByPercent(
+            ? discountPrice(
                 productInfo.product_price,
                 productInfo.product_discount
               )
@@ -33,7 +33,7 @@ export default function CharacterictisBox({ productInfo, characterictis }) {
           quantity: count,
           characteristics: selectedCharacterictis,
           totalprice: productInfo.product_discount
-            ? calculateDiscountByPercent(
+            ? discountPrice(
                 productInfo.product_price,
                 productInfo.product_discount
               ) * count

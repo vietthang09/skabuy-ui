@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { baseURL } from "../../../util/constants";
 import { sendPostRequest } from "../../../util/fetchAPI";
 import { formatdolla, showToast } from "../../../util/helper";
-import Product from "./Product";
+import ProductItem from "../../../components/ProductItem";
 import Stars from "./Stars";
 const Products = ({ products, setUpdate }) => {
   const userRedux = useSelector((state) => state.user);
@@ -63,7 +63,7 @@ const Products = ({ products, setUpdate }) => {
         <div className="row">
           {products.map((product, index) => (
             <div className="col-6 col-lg-3 mb-3" key={index}>
-              <Product product={product} />
+              <ProductItem product={product} />
             </div>
           ))}
         </div>

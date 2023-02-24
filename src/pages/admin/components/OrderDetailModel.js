@@ -4,7 +4,7 @@ import { useReactToPrint } from "react-to-print";
 import { baseURL, orderStatus } from "../../../util/constants";
 import { sendGetRequest, sendPostRequest } from "../../../util/fetchAPI";
 import {
-  calculateDiscountByPercent,
+  discountPrice,
   formatdolla,
   showToast,
 } from "../../../util/helper";
@@ -108,7 +108,7 @@ export default function OrderDetailModel({
           <h6>
             {formatdolla(
               record.product_discount
-                ? calculateDiscountByPercent(
+                ? discountPrice(
                     record.product_price,
                     record.product_discount
                   )
@@ -127,7 +127,7 @@ export default function OrderDetailModel({
           <h6>
             {formatdolla(
               record.product_discount
-                ? calculateDiscountByPercent(
+                ? discountPrice(
                     record.product_price,
                     record.product_discount
                   ) * record.quantity
@@ -178,7 +178,7 @@ export default function OrderDetailModel({
                   <div className="col-md-2">Voucher:</div>
                   <div className="col-md-2">{`- ${formatdolla(
                     order.total_price -
-                      calculateDiscountByPercent(
+                      discountPrice(
                         order.total_price,
                         order.discount
                       ),
