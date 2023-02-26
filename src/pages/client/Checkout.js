@@ -288,7 +288,7 @@ export default function Checkout(props) {
                 </div>
                 <div className="d-flex justify-content-between">
                   <h6 className="font-weight-medium">Shipping</h6>
-                  <h6 className="font-weight-medium">$5</h6>
+                  <h6 className="font-weight-medium">$0</h6>
                 </div>
                 {location.state.voucher != undefined &&
                   location.state.voucher.status == 3 && (

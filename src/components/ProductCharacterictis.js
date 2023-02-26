@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { buyProduct } from "../../../redux/actions/buyProduct";
-import { discountPrice, showToast } from "../../../util/helper";
+import { buyProduct } from "../redux/actions/buyProduct";
+import { discountPrice, showToast } from "../util/helper";
 
-export default function CharacterictisBox({ productInfo, characterictis }) {
+export default function ProductCharacterictis({ productInfo, characterictis }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userRedux = useSelector((state) => state.user);
@@ -47,11 +47,11 @@ export default function CharacterictisBox({ productInfo, characterictis }) {
     }
   }
   return (
-    <div>
+    <div className="mt-2">
       {characterictis.map((item, index) => {
         return (
           <span
-            className={`border p-2 mr-3 ${selectedCharacterictis != undefined &&
+            className={`border p-2 mr-3 rounded ${selectedCharacterictis != undefined &&
               selectedCharacterictis.values == item.values &&
               "border-info"}`}
             style={{ cursor: "pointer" }}
@@ -71,7 +71,7 @@ export default function CharacterictisBox({ productInfo, characterictis }) {
         <div className="input-group quantity mr-3" style={{ width: "130px" }}>
           <div className="input-group-btn">
             <button
-              className="btn btn-info btn-minus"
+              className="btn btn-info btn-minus rounded"
               onClick={() => {
                 count > 0 && setCount(count - 1);
               }}
@@ -88,7 +88,7 @@ export default function CharacterictisBox({ productInfo, characterictis }) {
           />
           <div className="input-group-btn">
             <button
-              className="btn btn-info btn-plus"
+              className="btn btn-info btn-plus rounded"
               onClick={() => {
                 !(count >= selectedCharacterictis.total) && setCount(count + 1);
               }}
@@ -98,7 +98,7 @@ export default function CharacterictisBox({ productInfo, characterictis }) {
           </div>
         </div>
         <button
-          className="btn btn-info px-3"
+          className="btn btn-info px-3 rounded"
           disabled={
             (selectedCharacterictis == undefined ||
               selectedCharacterictis.total == 0 ||

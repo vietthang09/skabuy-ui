@@ -6,7 +6,11 @@ export default function CategoryItem({ category }) {
       <div className="d-flex justify-content-center align-items-center">
         <Link
           to={category.category_slug}
-          state={{ category_id: category.category_id }}
+          state={{
+            id: category.category_id,
+            slug: category.category_slug,
+            name: category.category_name,
+          }}
         >
           <img
             style={{ width: "90px", height: "90px", objectFit: "contain" }}

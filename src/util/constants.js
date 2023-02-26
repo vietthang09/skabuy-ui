@@ -11,3 +11,22 @@ export const orderStatus = [
   { id: 3, data: "Cancelled" },
   { id: 4, data: "Refund" },
 ];
+
+
+export const productSliderSettings = {
+  arrows: false,
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 6,
+  slidesToScroll: 6,
+  responsive: [
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+  ],
+};

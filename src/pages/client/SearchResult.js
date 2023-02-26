@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import "../../css/style.css";
-import "../../lib/animate/animate.min.css";
-import "../../lib/owlcarousel/assets/owl.carousel.min.css";
-import "../../lib/easing/easing.min.js";
-import "../../lib/owlcarousel/owl.carousel.min.js";
-import "../../js/main.js";
 import Axios from "axios";
-import Pagination from "./components/Pagination";
-import Products from "./components/Products";
+import Pagination from "../../components/Pagination";
 import { divPriceToArray, showToast } from "../../util/helper";
 var lastProductIndex;
 var firstProductIndex;
@@ -142,7 +135,7 @@ export default function SearchResult() {
               </div>
             </div>
             <div className="px-3">
-              <Products products={currentProducts} />
+              {/* <Products products={currentProducts} /> */}
             </div>
             <Pagination
               totalProducts={productList.length}

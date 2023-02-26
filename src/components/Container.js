@@ -8,7 +8,7 @@ import Wishlist from "../pages/client/Wishlist";
 import Profile from "../pages/client/Profile";
 import SearchResult from "../pages/client/SearchResult";
 import ProductByCategory from "../pages/client/ProductByCategory";
-import DetailShop from "../pages/client/DetailShop";
+import ProductDetail from "../pages/client/ProductDetail";
 import Checkout from "../pages/client/Checkout";
 import ProcessCheckout from "../pages/client/ProcessCheckout";
 import AccountVerification from "../pages/client/AccountVerification";
@@ -31,7 +31,7 @@ export default function Container() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/search/:keyword" element={<SearchResult />} />
         <Route path="/:category_slug" element={<ProductByCategory />} />
-        <Route path="/detailshop/:slug" element={<DetailShop />} />
+        <Route path="/detail/:slug" element={<ProductDetail />} />
         <Route
           path="/checkout"
           element={<Checkout setUpdateCart={setUpdateCart} />}

@@ -6,8 +6,8 @@ import HomeCarousel from "./components/HomeCarousel";
 import ProductItem from "../../components/ProductItem";
 import Slider from "react-slick";
 import CategoryItem from "../../components/CategoryItem";
+import Spinner from "../../components/Spinner";
 const sliderSettings = {
-  // centerMode: true,
   dots: true,
   centerPadding: "10px",
   infinite: true,
@@ -67,11 +67,15 @@ export default function Home() {
     return (
       <div className="pt-3 pb-4 my-2 bg-white">
         <h4 className="text-center font-weight-bold">Categories.</h4>
-        <div className="row">
-          {categories.map((category, index) => {
-            return <CategoryItem category={category} key={index} />;
-          })}
-        </div>
+        {categories.length > 0 ? (
+          <div className="row">
+            {categories.map((category, index) => {
+              return <CategoryItem category={category} key={index} />;
+            })}
+          </div>
+        ) : (
+          <Spinner />
+        )}
       </div>
     );
   }
@@ -80,11 +84,15 @@ export default function Home() {
     return (
       <div className="pt-3 pb-4 my-2 bg-white">
         <h5 className="pl-3">Lasted products</h5>
-        <Slider {...sliderSettings}>
-          {lastedProduct.map((product, index) => {
-            return <ProductItem product={product} key={index} />;
-          })}
-        </Slider>
+        {lastedProduct.length > 0 ? (
+          <Slider {...sliderSettings}>
+            {lastedProduct.map((product, index) => {
+              return <ProductItem product={product} key={index} />;
+            })}
+          </Slider>
+        ) : (
+          <Spinner />
+        )}
       </div>
     );
   }
@@ -93,11 +101,15 @@ export default function Home() {
     return (
       <div className="pt-3 pb-4 my-2 bg-white">
         <h5 className="pl-3">Promotional products</h5>
-        <Slider {...sliderSettings}>
-          {promotionalProducts.map((product, index) => {
-            return <ProductItem product={product} key={index} />;
-          })}
-        </Slider>
+        {promotionalProducts.length > 0 ? (
+          <Slider {...sliderSettings}>
+            {promotionalProducts.map((product, index) => {
+              return <ProductItem product={product} key={index} />;
+            })}
+          </Slider>
+        ) : (
+          <Spinner />
+        )}
       </div>
     );
   }

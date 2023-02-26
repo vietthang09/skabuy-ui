@@ -60,10 +60,7 @@ function ShoppingCart(props) {
         setVoucherInfor(dataResponse);
         if (dataResponse.status == 3) {
           setTotalPayment(
-            discountPrice(
-              subtotal + 5,
-              dataResponse.voucher_infor.discount
-            )
+            discountPrice(subtotal, dataResponse.voucher_infor.discount)
           );
           setApplied(true);
         } else {
@@ -74,7 +71,7 @@ function ShoppingCart(props) {
   };
 
   const onCancelApplyVoucher = () => {
-    setTotalPayment(subtotal + 5);
+    setTotalPayment(subtotal);
     setApplied(false);
   };
   const onCheckoutHandler = () => {
@@ -96,7 +93,7 @@ function ShoppingCart(props) {
   };
 
   useEffect(() => {
-    setTotalPayment(subtotal + 5);
+    setTotalPayment(subtotal);
   }, [subtotal]);
 
   useEffect(() => {
@@ -249,9 +246,7 @@ function ShoppingCart(props) {
                 </div>
                 <div className="d-flex justify-content-between pb-2">
                   <h6 className="font-weight-medium">Shipping</h6>
-                  <h6 className="font-weight-medium">
-                    {cart != undefined ? "5$" : "0$"}
-                  </h6>
+                  <h6 className="font-weight-medium">0$</h6>
                 </div>
                 {applied && (
                   <div className="d-flex justify-content-between align-items-center pb-2">

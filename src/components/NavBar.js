@@ -21,6 +21,8 @@ export default function NavBar() {
   const [keyword, setKeyword] = useState("");
   const [cart, setCart] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(0);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -135,14 +137,29 @@ export default function NavBar() {
         <div className="fixed-bottom px-3 py-2 bg-white border-top">
           {checkLogin ? (
             <div className="d-flex justify-content-between">
-              <NavLink to="/">
-                <HomeOutlined style={{ fontSize: 24 }} />
+              <NavLink to="/" className={currentPage == 0 && "text-info"}>
+                <HomeOutlined
+                  onClick={() => setCurrentPage(0)}
+                  style={{ fontSize: 24 }}
+                />
               </NavLink>
-              <NavLink to="/wishlist">
-                <HeartOutlined style={{ fontSize: 24 }} />
+              <NavLink
+                to="/wishlist"
+                className={currentPage == 1 && "text-info"}
+              >
+                <HeartOutlined
+                  onClick={() => setCurrentPage(1)}
+                  style={{ fontSize: 24 }}
+                />
               </NavLink>
-              <NavLink to="/profile">
-                <UserOutlined style={{ fontSize: 24 }} />
+              <NavLink
+                to="/profile"
+                className={currentPage == 2 && "text-info"}
+              >
+                <UserOutlined
+                  onClick={() => setCurrentPage(2)}
+                  style={{ fontSize: 24 }}
+                />
               </NavLink>
             </div>
           ) : (
@@ -167,7 +184,7 @@ export default function NavBar() {
           <div className="w-50">
             <SearchSection />
           </div>
-          {!checkLogin ? (
+          {checkLogin ? (
             <div className="d-flex justify-content-between">
               <Link to="/wishlist" className="d-flex justify-content-center">
                 <div>

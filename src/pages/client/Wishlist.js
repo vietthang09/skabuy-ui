@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { sendGetRequest } from "../../util/fetchAPI";
 import { baseURL } from "../../util/constants";
 import { useSelector } from "react-redux";
-import Products from "./components/Products";
+// import Products from "./components/Products";
 import { showToast } from "../../util/helper";
 import { Link } from "react-router-dom";
 export default function Wishlist() {
@@ -37,7 +37,7 @@ export default function Wishlist() {
       </div>
 
       <div className="row px-xl-5">
-        <Products products={products} setUpdate={setReloadWishlist} />
+        {/* <Products products={products} setUpdate={setReloadWishlist} /> */}
       </div>
     </div>
   );

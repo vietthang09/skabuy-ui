@@ -7,6 +7,7 @@ export default function Stars({ stars }) {
           <i
             key={index}
             className={`${index <= stars ? "fas" : "far"} fa-star`}
+            style={{fontSize: "12px"}}
           ></i>
         );
       })}

@@ -20,7 +20,7 @@ const Pagination = ({
             onClick={() => setCurrentPage(page)}
             className={`${page == currentPage ? "active" : ""} page-item`}
           >
-            <a onClick={() => setCurrentPage(page)} className="page-link">
+            <a onClick={() => setCurrentPage(page)} className="page-link rounded">
               {page}
             </a>
           </li>
