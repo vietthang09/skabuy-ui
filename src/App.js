@@ -7,7 +7,7 @@ import "./css/style.css";
 
 function App() {
   return (
-    <>
+    <div className="bg-white">
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -23,7 +23,7 @@ function App() {
       <NavBar />
       <Container />
       <Footer />
-    </>
+    </div>
   );
 }
 export default App;

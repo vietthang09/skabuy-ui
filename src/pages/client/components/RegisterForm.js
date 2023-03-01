@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { showToast, validateEmail, validatePassword } from "../../../util/helper";
+import {
+  showToast,
+  validateEmail,
+  validatePassword,
+} from "../../../util/helper";
 import { sendPostRequest } from "../../../util/fetchAPI";
 import { baseURL } from "../../../util/constants";
 
@@ -64,8 +68,8 @@ export default function RegisterForm() {
   }, [newAddress]);
   return (
     <>
-      <h5 className="section-title position-relative text-uppercase mb-3">
-        <span className="bg-secondary pr-3">REGISTER</span>
+      <h5 className="section-title position-relative text-uppercase mb-3 text-center">
+        Register
       </h5>
       <div className="bg-light row p-30 mb-5">
         <div className="col-md-6 form-group">

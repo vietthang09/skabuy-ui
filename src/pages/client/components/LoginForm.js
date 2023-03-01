@@ -63,8 +63,8 @@ export default function LoginForm() {
   };
   return (
     <>
-      <h5 className="section-title position-relative text-uppercase mb-3">
-        <span className="bg-secondary pr-3">LOGIN</span>
+      <h5 className="section-title position-relative text-uppercase mb-3 text-center">
+        Login
       </h5>
       <div className="bg-light p-30 mb-5">
         <div className="row">

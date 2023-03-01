@@ -77,11 +77,11 @@ export default function CategoryManage() {
   useEffect(() => {
     if (logoCategory.length > 0 && logoCategory[0].response != undefined) {
       formAdd.setFieldsValue({
-        logo: "/Upload/ImageCategory/" + logoCategory[0].response.msg.filename,
+        logo: logoCategory[0].response.secure_url,
       });
       setdataAdd({
         ...dataAdd,
-        image: "/Upload/ImageCategory/" + logoCategory[0].response.msg.filename,
+        image: logoCategory[0].response.secure_url,
       });
     }
   }, [logoCategory]);
@@ -93,8 +93,7 @@ export default function CategoryManage() {
   useEffect(() => {
     if (category_image.length > 0 && category_image[0].response != undefined) {
       formEdit.setFieldsValue({
-        category_image:
-          "/Upload/ImageCategory/" + category_image[0].response.msg.filename,
+        category_image: category_image[0].response.secure_url,
       });
     }
   }, [category_image]);
@@ -192,7 +191,7 @@ export default function CategoryManage() {
         >
           <ImgCrop rotate grid aspect={1.5 / 2.2}>
             <Upload
-              action={`${baseURL}/uploads/category`}
+              action={`${baseURL}/uploads/cloudinary-upload`}
               listType="picture-card"
               name="image"
               fileList={category_image}
@@ -265,7 +264,7 @@ export default function CategoryManage() {
         >
           <ImgCrop rotate grid aspect={1.5 / 2.2}>
             <Upload
-              action={`${baseURL}/uploads/category`}
+              action={`${baseURL}/uploads/cloudinary-upload`}
               listType="picture-card"
               name="image"
               fileList={logoCategory}

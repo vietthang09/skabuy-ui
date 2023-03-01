@@ -8,23 +8,20 @@ import {
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import cookie from "react-cookies";
-import { useDispatch, useSelector } from "react-redux";
-import { getCookie } from "../util/localStorageHandle";
 import { sendGetRequest } from "../util/fetchAPI";
 import * as CONSTANTS from "../util/constants";
 import CategoryItem from "./CategoryItem";
 export default function NavBar() {
-  const [updateCart, setUpdateCart] = useState(false);
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
-  const userRedux = useSelector((state) => state.user);
-
   const [keyword, setKeyword] = useState("");
-  const [cart, setCart] = useState([]);
-
   const [currentPage, setCurrentPage] = useState(0);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  function checkLogin() {
+    const token = cookie.load("token");
+    if (token == null || token == undefined) return false;
+    else return true;
+  }
 
   async function loadCategories() {
     const response = await sendGetRequest(`${CONSTANTS.baseURL}/category/all`);
@@ -34,24 +31,6 @@ export default function NavBar() {
       showToast("ERROR", "There are some mistake!");
     }
   }
-
-  // const logout = () => {
-  //   navigate("/");
-  //   cookie.remove("token");
-  //   cookie.remove("user");
-  //   showToast("SUCCESS", "Logout successful");
-  //   dispatch(logoutUser());
-  // };
-
-  useEffect(() => {
-    loadCategories();
-    setCart(JSON.parse(getCookie(CONSTANTS.cartCookie)));
-  }, []);
-
-  useEffect(() => {
-    setCart(JSON.parse(getCookie(CONSTANTS.cartCookie)));
-    setUpdateCart(false);
-  }, [updateCart]);
 
   const onKeyDownHandler = (e) => {
     if (e.keyCode == 13) {
@@ -64,25 +43,29 @@ export default function NavBar() {
       navigate(`/search/${keyword}`);
     }
   };
-  function checkLogin() {
-    const token = cookie.load("token");
-    if (token == null || token == undefined) return false;
-    else return true;
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  function updateKeyword(value) {
+    // setKeyword(value);
   }
 
   function SearchSection() {
     return (
-      <div className="bg-white py-1 mx-3 px-2 d-flex align-items-center rounded-pill w-100">
+      <div className="bg-white mx-3 px-2 d-flex align-items-center rounded-pill w-100 border">
         <input
           type="text"
-          className="rounded-pill border-0 w-100"
+          className="form-control rounded-pill border-0 w-100"
           placeholder="Search"
           onKeyDown={(e) => onKeyDownHandler(e)}
-          onChange={(e) => setKeyword(e.target.value)}
+          onChange={(e) => updateKeyword(e.target.value)}
         />
         <SearchOutlined
           className="text-info"
           onClick={() => onSearchHandler()}
+          style={{ fontSize: "24px" }}
         />
       </div>
     );
@@ -90,9 +73,9 @@ export default function NavBar() {
 
   function DropdownSection() {
     return (
-      <div class="dropdown ml-3">
+      <div className="dropdown ml-3">
         <span
-          class="dropdown-toggle text-white font-weight-bold"
+          className="dropdown-toggle text-white font-weight-bold"
           type="button"
           id="dropdownMenuButton"
           data-toggle="dropdown"
@@ -103,7 +86,7 @@ export default function NavBar() {
           Categories
         </span>
         <div
-          class="dropdown-menu rounded-lg shadow"
+          className="dropdown-menu rounded-lg shadow"
           aria-labelledby="dropdownMenuButton"
         >
           <div className="row" style={{ width: "50vw" }}>
@@ -115,6 +98,7 @@ export default function NavBar() {
       </div>
     );
   }
+
   return (
     <div>
       <div className="d-lg-none">

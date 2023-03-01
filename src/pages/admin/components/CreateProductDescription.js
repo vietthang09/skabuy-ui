@@ -49,7 +49,7 @@ export default function CreateProductDescription({
     </div>
   );
   const imageUploadProps = {
-    action: `${baseURL}/uploads/product-images`,
+    action: `${baseURL}/uploads/cloudinary-upload`,
     name: "image",
     listType: "picture-card",
     fileList: fileList,
@@ -127,7 +127,7 @@ export default function CreateProductDescription({
         unit: newAttribute.unit,
       },
     };
-    if(newAttribute.type == ""){
+    if (newAttribute.type == "") {
       showToast("WARNING", "Type cannot be blank");
     } else {
       const response = await sendPostRequest(
@@ -271,8 +271,7 @@ export default function CreateProductDescription({
       if (fileList.length == 1 && fileList[0].response != undefined) {
         setProductInfo((current) => ({
           ...current,
-          imageDes1:
-            "/Upload/ProductDescription/" + fileList[0].response.msg.filename,
+          imageDes1: fileList[0].response.secure_url,
         }));
       } else if (
         fileList.length == 2 &&
@@ -281,10 +280,8 @@ export default function CreateProductDescription({
       ) {
         setProductInfo((current) => ({
           ...current,
-          imageDes1:
-            "/Upload/ProductDescription/" + fileList[0].response.msg.filename,
-          imageDes2:
-            "/Upload/ProductDescription/" + fileList[1].response.msg.filename,
+          imageDes1: fileList[0].response.secure_url,
+          imageDes2: fileList[1].response.secure_url,
         }));
       }
     }

@@ -39,7 +39,6 @@ export default function Admin() {
     setshowContent(false);
     document.getElementsByClassName("Header-nav")[0].style.display = "none";
     document.getElementsByClassName("footer")[0].style.display = "none";
-    document.getElementsByClassName("chatbot")[0].style.display = "none";
     checkAccountAdmin();
   }, []);
 

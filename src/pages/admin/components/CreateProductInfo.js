@@ -38,7 +38,7 @@ export default function CreateProductInfo({
     </div>
   );
   const imageUploadProps = {
-    action: `${baseURL}/uploads/product-image`,
+    action: `${baseURL}/uploads/cloudinary-upload`,
     name: "image",
     listType: "picture-card",
     fileList: fileList,
@@ -93,7 +93,7 @@ export default function CreateProductInfo({
     if (fileList.length > 0 && fileList[0].response != undefined) {
       setProductInfo((current) => ({
         ...current,
-        image: "/Upload/ImageProduct/" + fileList[0].response.msg.filename,
+        image: fileList[0].response.secure_url,
       }));
     }
   }, [fileList]);
