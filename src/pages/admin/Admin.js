@@ -13,7 +13,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import cookie from "react-cookies";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Spinner from "../../pages/client/components/spinner";
 import HomeAdmin from "./HomeAdmin";
 import AccountUser from "./AccountUser";
@@ -155,19 +155,6 @@ export default function Admin() {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
       <div>
         {showContent ? (
           <Layout style={{ minHeight: window.innerHeight }}>

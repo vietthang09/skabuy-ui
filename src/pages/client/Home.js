@@ -115,7 +115,7 @@ export default function Home() {
   }
 
   return (
-    <div className="container bg-white">
+    <div className="container bg-white pt-5">
       <HomeCarousel />
 
       <PromotionalProductsSection />

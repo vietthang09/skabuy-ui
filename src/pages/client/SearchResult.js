@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import Axios from "axios";
 import Pagination from "../../components/Pagination";
 import { divPriceToArray, showToast } from "../../util/helper";
+import { baseURL } from "../../util/constants";
+import ProductItem from "../../components/ProductItem";
 var lastProductIndex;
 var firstProductIndex;
 var currentProducts;
@@ -20,23 +22,21 @@ export default function SearchResult() {
       price: selectedPrice,
     };
     const encoded = btoa(JSON.stringify(data));
-    Axios.get(`https://nodejs.skabuy.com/shop/search/${encoded}`).then(
-      (response) => {
-        const responseData = response.data;
-        if (responseData.status == "error") {
-          showToast("ERROR", response.message);
-        } else {
-          setProductList(responseData.data);
-          if (firstTime) {
-            let maxProduct = responseData.data.reduce((max, el) =>
-              max.product_price > el.product_price ? max : el
-            );
-            setMaxPrice(maxProduct.product_price);
-            firstTime = false;
-          }
+    Axios.get(`${baseURL}/shop/search/${encoded}`).then((response) => {
+      const responseData = response.data;
+      if (responseData.status == "error") {
+        showToast("ERROR", response.message);
+      } else {
+        setProductList(responseData.data);
+        if (firstTime) {
+          let maxProduct = responseData.data.reduce((max, el) =>
+            max.product_price > el.product_price ? max : el
+          );
+          setMaxPrice(maxProduct.product_price);
+          firstTime = false;
         }
       }
-    );
+    });
   };
 
   const onSelectPriceHandler = (newPrice) => {
@@ -65,87 +65,127 @@ export default function SearchResult() {
   lastProductIndex = currentPage * productsPerPage;
   firstProductIndex = lastProductIndex - productsPerPage;
   currentProducts = productList.slice(firstProductIndex, lastProductIndex);
+
+  function FilterSection() {
+    return (
+      <>
+        <h5 className="section-title position-relative text-uppercase mb-3">
+          <span className="bg-secondary pr-3">Filter by price</span>
+        </h5>
+        <div className="bg-light p-4 mb-30">
+          <div>
+            {divPriceToArray(maxPrice).map((item, index) => {
+              return (
+                <div
+                  className="custom-control custom-checkbox d-flex align-items-center justify-content-between mt-3"
+                  key={index}
+                >
+                  <input
+                    type="checkbox"
+                    className="custom-control-input"
+                    id={`price-${index}`}
+                    onChange={() => onSelectPriceHandler(item.data)}
+                  />
+                  <label
+                    className="custom-control-label"
+                    htmlFor={`price-${index}`}
+                  >
+                    {item.text}
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  function ProductsSection() {
+    return (
+      <div>
+        <div className="row">
+          {currentProducts.map((product, index) => (
+            <div className="col-4 col-lg-3" key={index}>
+              <ProductItem product={product} />
+            </div>
+          ))}
+        </div>
+        <Pagination
+          totalProducts={productList.length}
+          productsPerPage={productsPerPage}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
+      </div>
+    );
+  }
   return (
-    <>
-      <div className="container-fluid">
-        <span>{`Found ${productList.length} ${
-          productList.length > 1 ? "products" : "product"
-        } with keyword "${keyword}" `}</span>
+    <div className="container pt-5 mt-lg-5 mt-2">
+      <span className="mt-2">{`Found ${productList.length} ${
+        productList.length > 1 ? "products" : "product"
+      } with keyword "${keyword}" `}</span>
+
+      <button
+        type="button"
+        className="btn btn-white text-info border rounded d-block d-lg-none"
+        data-toggle="modal"
+        data-target="#filterModel"
+      >
+        Filter
+      </button>
+
+      <div className="row mt-5 d-none d-lg-flex">
+        <div className="col-4">
+          <FilterSection />
+        </div>
+        <div className="col-8">
+          <ProductsSection />
+        </div>
       </div>
 
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-lg-3 col-md-4">
-            <h5 className="section-title position-relative text-uppercase mb-3">
-              <span className="bg-secondary pr-3">Filter by price</span>
-            </h5>
-            <div className="bg-light p-4 mb-30">
-              <div>
-                {divPriceToArray(maxPrice).map((item, index) => {
-                  return (
-                    <div
-                      className="custom-control custom-checkbox d-flex align-items-center justify-content-between mt-3"
-                      key={index}
-                    >
-                      <input
-                        type="checkbox"
-                        className="custom-control-input"
-                        id={`price-${index}`}
-                        onChange={() => onSelectPriceHandler(item.data)}
-                      />
-                      <label
-                        className="custom-control-label"
-                        htmlFor={`price-${index}`}
-                      >
-                        {item.text}
-                      </label>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+      <div className="d-block d-lg-none">
+        <ProductsSection />
+      </div>
 
-          <div className="col-lg-9 col-md-8">
-            <div className="col-12 pb-1">
-              <div className="d-flex align-items-center justify-content-between mb-4">
-                <div></div>
-                <div className="ml-2">
-                  <div className="btn-group">
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-light dropdown-toggle"
-                      data-toggle="dropdown"
-                    >
-                      Sorting
-                    </button>
-                    <div className="dropdown-menu dropdown-menu-right">
-                      <Link className="dropdown-item" to="#">
-                        Latest
-                      </Link>
-                      <Link className="dropdown-item" to="#">
-                        Popularity
-                      </Link>
-                      <Link className="dropdown-item" to="#">
-                        Best Rating
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div
+        className="modal fade"
+        id="filterModel"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Filter
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div className="px-3">
-              {/* <Products products={currentProducts} /> */}
+            <div className="modal-body">
+              <FilterSection />
             </div>
-            <Pagination
-              totalProducts={productList.length}
-              productsPerPage={productsPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-success rounded"
+                data-dismiss="modal"
+              >
+                Apply
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

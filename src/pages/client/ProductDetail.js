@@ -395,7 +395,7 @@ export default function ProductDetail() {
   return (
     <>
       {productInfor ? (
-        <div className="container mt-lg-5">
+        <div className="container mt-lg-5 pt-5">
           <div className="row">
             <div className="col-lg-6">
               <ProductImagesSection />

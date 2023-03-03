@@ -17,7 +17,7 @@ import Admin from "../pages/admin/Admin";
 export default function Container() {
   const [updateCart, setUpdateCart] = useState(false);
   return (
-    <div className="py-5 bg-white">
+    <div className="bg-white">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

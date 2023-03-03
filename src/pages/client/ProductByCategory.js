@@ -236,7 +236,7 @@ export default function ProductByCategory() {
     );
   }
   return (
-    <div className="container">
+    <div className="container pt-5">
       <button
         type="button"
         className="btn btn-white text-info border rounded mt-2 d-lg-none"
