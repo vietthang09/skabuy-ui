@@ -8,7 +8,7 @@ import { sendGetRequest } from "../../util/fetchAPI";
 import { baseURL } from "../../util/constants";
 import { formatbirthday, formatdate, showToast } from "../../util/helper";
 import { getColumnSearchProps } from "./components/SearchFilter";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 export default function CommentManage() {
   const [comments, setComments] = useState([]);
@@ -32,12 +32,12 @@ export default function CommentManage() {
   const handleDeleteSale = async () => {
     const res = await Axios({
       method: "post",
-      url: "https://nodejs.skabuy.com/comment/deleteComment",
+      url: `${baseURL}/comment/deleteComment`,
       data: {
         comment_id: itemTmp.comment_id,
       },
     }).then((result) => result.data);
-    console.log(res)
+    console.log(res);
     if (res.status) {
       if (res.status === "success") {
         message.success("Successful");

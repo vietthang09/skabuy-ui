@@ -5,10 +5,10 @@ import Stars from "./Stars";
 export default function ProductItem({ product }) {
   return (
     <Link to={`/detail/${product.product_slug}`}>
-      <div className="product-item rounded">
+      <div className="product-item bg-white rounded">
         <div className="product-item_content">
           {product.product_discount > 0 && (
-            <span className="product-item_promo-flag">Instant Savings</span>
+            <span className="product-item_promo-flag">{`-${product.product_discount}%`}</span>
           )}
           <div className="d-flex justify-content-center">
             <img className="product-item_image" src={product.product_image} />
@@ -22,16 +22,6 @@ export default function ProductItem({ product }) {
           </div>
           {product.product_discount > 0 ? (
             <>
-              <span className="product-item_saving">
-                {`Save ${formatdolla(
-                  product.product_price -
-                    discountPrice(
-                      product.product_price,
-                      product.product_discount
-                    ),
-                  "$"
-                )}`}
-              </span>
               <span className="product-item_price">
                 {formatdolla(
                   discountPrice(

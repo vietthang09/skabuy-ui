@@ -5,6 +5,7 @@ import { showToast } from "../../util/helper";
 import cookie from "react-cookies";
 import { OrderBox } from "./components/OrderBox";
 import { useNavigate } from "react-router";
+import { baseURL } from "../../util/constants";
 function Profile() {
   const navigate = useNavigate();
   const userRedux = useSelector((state) => state.user);
@@ -47,18 +48,16 @@ function Profile() {
     ) {
       showToast("WARNING", "Please fill in all the information");
     } else {
-      Axios.post("https://nodejs.skabuy.com/user/editUser", userInfor).then(
-        (response) => {
-          let responseData = response.data;
-          if (responseData.status == "success") {
-            cookie.save("user", userInfor);
-            showToast("SUCCESS", "Update successfully!");
-            window.location.reload(false);
-          } else {
-            showToast("ERROR", responseData.message);
-          }
+      Axios.post(`${baseURL}/user/editUser`, userInfor).then((response) => {
+        let responseData = response.data;
+        if (responseData.status == "success") {
+          cookie.save("user", userInfor);
+          showToast("SUCCESS", "Update successfully!");
+          window.location.reload(false);
+        } else {
+          showToast("ERROR", responseData.message);
         }
-      );
+      });
     }
   };
   useEffect(() => {
@@ -94,179 +93,177 @@ function Profile() {
       }));
     }
   }, [newAddress]);
+
+  function ProfileSection() {
+    return (
+      <div className="p-4 bg-white rounded">
+        <h5>My profile</h5>
+        <div className="row">
+          <div className="col-md-6 form-group">
+            <label>Full Name</label>
+            <input
+              className="form-control"
+              type="text"
+              value={userInfor.user_fullname}
+              onChange={(e) =>
+                setUserInfor((current) => ({
+                  ...current,
+                  user_fullname: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="col-md-6 form-group">
+            <label>E-mail</label>
+            <input
+              className="form-control"
+              type="text"
+              value={userInfor.user_email}
+              disabled
+            />
+          </div>
+          <div className="col-md-6 form-group">
+            <label>Phone number</label>
+            <input
+              className="form-control"
+              type="number"
+              value={userInfor.user_phone_number}
+              onChange={(e) =>
+                setUserInfor((current) => ({
+                  ...current,
+                  user_phone_number: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="col-md-6 form-group">
+            <label>Gender</label>
+            <select
+              className="form-control"
+              name="gender"
+              onChange={(e) =>
+                setUserInfor((current) => ({
+                  ...current,
+                  user_gender: e.target.value,
+                }))
+              }
+            >
+              <option selected={userRedux.user == undefined}>
+                -- Gender --
+              </option>
+              <option value={"male"} selected={userInfor.user_gender == "male"}>
+                Male
+              </option>
+              <option
+                value={"female"}
+                selected={userInfor.user_gender == "female"}
+              >
+                Female
+              </option>
+            </select>
+          </div>
+          <div className="col-md-6 form-group">
+            <label>Country</label>
+            <input
+              className="form-control"
+              type="text"
+              value={newAddress.country}
+              onChange={(e) =>
+                setNewAddress((current) => ({
+                  ...current,
+                  country: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="col-md-6 form-group">
+            <label>Province</label>
+            <input
+              className="form-control"
+              type="text"
+              value={newAddress.province}
+              onChange={(e) =>
+                setNewAddress((current) => ({
+                  ...current,
+                  province: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="col-md-6 form-group">
+            <label>District</label>
+            <input
+              className="form-control"
+              type="text"
+              value={newAddress.district}
+              onChange={(e) =>
+                setNewAddress((current) => ({
+                  ...current,
+                  district: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="col-md-6 form-group">
+            <label>Ward</label>
+            <input
+              className="form-control"
+              type="text"
+              value={newAddress.ward}
+              onChange={(e) =>
+                setNewAddress((current) => ({
+                  ...current,
+                  ward: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="col-md-12 form-group">
+            <label>Specific</label>
+            <input
+              className="form-control"
+              type="text"
+              value={newAddress.specific}
+              onChange={(e) =>
+                setNewAddress((current) => ({
+                  ...current,
+                  specific: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="col-md-12 form-group">
+            <label>Date of birth</label>
+            <input
+              className="form-control"
+              type="date"
+              value={new Date(userInfor.user_date_of_birth).toLocaleDateString(
+                "en-CA"
+              )}
+              onChange={(e) =>
+                setUserInfor((current) => ({
+                  ...current,
+                  user_date_of_birth: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="col-md-12 form-group">
+            <button className="btn btn-info success" onClick={() => onSaveHandler()}>
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       {userRedux.user != undefined && userRedux.user != null && (
-        <div className="container-fluid">
-          <div className="row px-xl-5">
+        <div className="container mt-5 pt-5">
+          <div className="row">
             <div className="col-lg-4">
-              <h5 className="section-title position-relative text-uppercase mb-3">
-                <span className="bg-secondary pr-3">My profile</span>
-              </h5>
-              <div className="bg-light p-30 mb-5">
-                <div className="row">
-                  <div className="col-md-6 form-group">
-                    <label>Full Name</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={userInfor.user_fullname}
-                      onChange={(e) =>
-                        setUserInfor((current) => ({
-                          ...current,
-                          user_fullname: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="col-md-6 form-group">
-                    <label>E-mail</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={userInfor.user_email}
-                      disabled
-                    />
-                  </div>
-                  <div className="col-md-6 form-group">
-                    <label>Phone number</label>
-                    <input
-                      className="form-control"
-                      type="number"
-                      value={userInfor.user_phone_number}
-                      onChange={(e) =>
-                        setUserInfor((current) => ({
-                          ...current,
-                          user_phone_number: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="col-md-6 form-group">
-                    <label>Gender</label>
-                    <select
-                      className="form-control"
-                      name="gender"
-                      onChange={(e) =>
-                        setUserInfor((current) => ({
-                          ...current,
-                          user_gender: e.target.value,
-                        }))
-                      }
-                    >
-                      <option selected={userRedux.user == undefined}>
-                        -- Gender --
-                      </option>
-                      <option
-                        value={"male"}
-                        selected={userInfor.user_gender == "male"}
-                      >
-                        Male
-                      </option>
-                      <option
-                        value={"female"}
-                        selected={userInfor.user_gender == "female"}
-                      >
-                        Female
-                      </option>
-                    </select>
-                  </div>
-                  <div className="col-md-6 form-group">
-                    <label>Country</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={newAddress.country}
-                      onChange={(e) =>
-                        setNewAddress((current) => ({
-                          ...current,
-                          country: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="col-md-6 form-group">
-                    <label>Province</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={newAddress.province}
-                      onChange={(e) =>
-                        setNewAddress((current) => ({
-                          ...current,
-                          province: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="col-md-6 form-group">
-                    <label>District</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={newAddress.district}
-                      onChange={(e) =>
-                        setNewAddress((current) => ({
-                          ...current,
-                          district: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="col-md-6 form-group">
-                    <label>Ward</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={newAddress.ward}
-                      onChange={(e) =>
-                        setNewAddress((current) => ({
-                          ...current,
-                          ward: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="col-md-12 form-group">
-                    <label>Specific</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={newAddress.specific}
-                      onChange={(e) =>
-                        setNewAddress((current) => ({
-                          ...current,
-                          specific: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="col-md-12 form-group">
-                    <label>Date of birth</label>
-                    <input
-                      className="form-control"
-                      type="date"
-                      value={new Date(
-                        userInfor.user_date_of_birth
-                      ).toLocaleDateString("en-CA")}
-                      onChange={(e) =>
-                        setUserInfor((current) => ({
-                          ...current,
-                          user_date_of_birth: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="col-md-12 form-group">
-                    <button
-                      className="btn btn-info"
-                      onClick={() => onSaveHandler()}
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ProfileSection />
             </div>
             <div className="col-lg-8">
               <OrderBox />

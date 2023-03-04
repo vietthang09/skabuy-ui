@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getCookie, setCookie } from "../../util/localStorageHandle";
-import { Link } from "react-router-dom"; 
+import { getCookie } from "../../util/localStorageHandle";
 import * as CONSTANTS from "../../util/constants";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { formatdolla, showToast } from "../../util/helper";
-import { sendPostRequest } from "../../util/fetchAPI";
-import Paypal from "./components/Paypal";
 export default function Checkout(props) {
   const navigate = useNavigate();
   const userRedux = useSelector((state) => state.user);
@@ -18,7 +15,6 @@ export default function Checkout(props) {
     user_address: userRedux.user.user_address,
     user_gender: userRedux.user.user_gender,
   });
-  const [message, setMessage] = useState("");
   const location = useLocation();
   let unCombinedAddress = userInfor.user_address.split(", ", 5);
   const [newAddress, setNewAddress] = useState({
@@ -32,7 +28,7 @@ export default function Checkout(props) {
     setCart(JSON.parse(getCookie(CONSTANTS.cartCookie)));
   };
 
-  function processCheckout(){
+  function processCheckout() {
     if (
       userInfor.user_fullname === "" ||
       userInfor.user_email === "" ||
@@ -67,7 +63,6 @@ export default function Checkout(props) {
         address: userInfor.user_address,
         total_price: location.state.totalPayment,
         method_payment: 1,
-        message: message,
         paymentInfo: null,
         voucher:
           location.state.voucher != undefined
@@ -98,219 +93,185 @@ export default function Checkout(props) {
   }, []);
 
   return (
-    <>
-      <div className="container-fluid">
-        <div className="row px-xl-5">
-          <div className="col-12">
-            <nav className="breadcrumb bg-light mb-30">
-              <a className="breadcrumb-item text-dark" href="#">
-                Home
-              </a>
-              <a className="breadcrumb-item text-dark" href="#">
-                Shop
-              </a>
-              <span className="breadcrumb-item active">Checkout</span>
-            </nav>
-          </div>
-        </div>
-      </div>
-
-      <div className="container-fluid">
-        <div className="row px-xl-5">
-          <div className="col-lg-8">
-            <h5 className="section-title position-relative text-uppercase mb-3">
-              <span className="bg-secondary pr-3">Billing Address</span>
-            </h5>
-            <div className="bg-light p-30 mb-5">
-              <div className="row">
-                <div className="col-md-6 form-group">
-                  <label>Full Name</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={userInfor.user_fullname}
-                    onChange={(e) =>
-                      setUserInfor((current) => ({
-                        ...current,
-                        user_fullname: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-                <div className="col-md-6 form-group">
-                  <label>Phone number</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={userInfor.user_phone_number}
-                    onChange={(e) =>
-                      setUserInfor((current) => ({
-                        ...current,
-                        user_phone_number: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-                <div className="col-md-6 form-group">
-                  <label>E-mail</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={userInfor.user_email}
-                    onChange={(e) =>
-                      setUserInfor((current) => ({
-                        ...current,
-                        user_email: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-                <div className="col-md-6 form-group">
-                  <label>Gender</label>
-                  <select
-                    className="form-control"
-                    name="gender"
-                    onChange={(e) =>
-                      setUserInfor((current) => ({
-                        ...current,
-                        user_gender: e.target.value,
-                      }))
-                    }
-                    defaultValue={userInfor.user_gender}
-                  >
-                    <option>-- Gender --</option>
-                    <option value={"male"}>Male</option>
-                    <option value={"female"}>Female</option>
-                  </select>
-                </div>
-                <div className="col-md-12 form-group">
-                  <label>Specific</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={newAddress.specific}
-                    onChange={(e) =>
-                      setNewAddress((current) => ({
-                        ...current,
-                        specific: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-                <div className="col-md-6 form-group">
-                  <label>Ward</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={newAddress.ward}
-                    onChange={(e) =>
-                      setNewAddress((current) => ({
-                        ...current,
-                        ward: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-                <div className="col-md-6 form-group">
-                  <label>District</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={newAddress.district}
-                    onChange={(e) =>
-                      setNewAddress((current) => ({
-                        ...current,
-                        district: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-                <div className="col-md-6 form-group">
-                  <label>Province</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={newAddress.province}
-                    onChange={(e) =>
-                      setNewAddress((current) => ({
-                        ...current,
-                        province: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-                <div className="col-md-6 form-group">
-                  <label>Country</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={newAddress.country}
-                    onChange={(e) =>
-                      setNewAddress((current) => ({
-                        ...current,
-                        country: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-
-                <div className="col-md-12 form-group">
-                  <label>Message</label>
-                  <textarea
-                    className="form-control"
-                    type="text"
-                    rows={5}
-                    placeholder="I want to..."
-                    onChange={(e) => setMessage(e.target.value)}
-                  />
-                </div>
-              </div>
+    <div className="container mt-5 pt-5">
+      <div className="row">
+        <div className="col-lg-8 bg-white p-4 rounded">
+          <h5>Billing Address</h5>
+          <div className="row">
+            <div className="col-md-6 form-group">
+              <label>Full Name</label>
+              <input
+                className="form-control"
+                type="text"
+                value={userInfor.user_fullname}
+                onChange={(e) =>
+                  setUserInfor((current) => ({
+                    ...current,
+                    user_fullname: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="col-md-6 form-group">
+              <label>Phone number</label>
+              <input
+                className="form-control"
+                type="text"
+                value={userInfor.user_phone_number}
+                onChange={(e) =>
+                  setUserInfor((current) => ({
+                    ...current,
+                    user_phone_number: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="col-md-6 form-group">
+              <label>E-mail</label>
+              <input
+                className="form-control"
+                type="text"
+                value={userInfor.user_email}
+                onChange={(e) =>
+                  setUserInfor((current) => ({
+                    ...current,
+                    user_email: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="col-md-6 form-group">
+              <label>Gender</label>
+              <select
+                className="form-control"
+                name="gender"
+                onChange={(e) =>
+                  setUserInfor((current) => ({
+                    ...current,
+                    user_gender: e.target.value,
+                  }))
+                }
+                defaultValue={userInfor.user_gender}
+              >
+                <option>-- Gender --</option>
+                <option value={"male"}>Male</option>
+                <option value={"female"}>Female</option>
+              </select>
+            </div>
+            <div className="col-md-12 form-group">
+              <label>Specific</label>
+              <input
+                className="form-control"
+                type="text"
+                value={newAddress.specific}
+                onChange={(e) =>
+                  setNewAddress((current) => ({
+                    ...current,
+                    specific: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="col-md-6 form-group">
+              <label>Ward</label>
+              <input
+                className="form-control"
+                type="text"
+                value={newAddress.ward}
+                onChange={(e) =>
+                  setNewAddress((current) => ({
+                    ...current,
+                    ward: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="col-md-6 form-group">
+              <label>District</label>
+              <input
+                className="form-control"
+                type="text"
+                value={newAddress.district}
+                onChange={(e) =>
+                  setNewAddress((current) => ({
+                    ...current,
+                    district: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="col-md-6 form-group">
+              <label>Province</label>
+              <input
+                className="form-control"
+                type="text"
+                value={newAddress.province}
+                onChange={(e) =>
+                  setNewAddress((current) => ({
+                    ...current,
+                    province: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="col-md-6 form-group">
+              <label>Country</label>
+              <input
+                className="form-control"
+                type="text"
+                value={newAddress.country}
+                onChange={(e) =>
+                  setNewAddress((current) => ({
+                    ...current,
+                    country: e.target.value,
+                  }))
+                }
+              />
             </div>
           </div>
-          <div className="col-lg-4">
-            <h5 className="section-title position-relative text-uppercase mb-3">
-              <span className="bg-secondary pr-3">Order Total</span>
-            </h5>
-            <div className="bg-light p-30 mb-5">
-              <div className="border-bottom">
-                <h6 className="mb-3">Products</h6>
-                {cart.map((item, index) => (
-                  <div className="d-flex justify-content-between" key={index}>
-                    <p>{`${item.product_name} x ${item.quantity}`}</p>
-                    <p>{formatdolla(item.totalprice, "$")}</p>
-                  </div>
-                ))}
+        </div>
+        <div className="col-lg-4 p-4 bg-white rounded border-left">
+          <h5>Order Total</h5>
+          <div className="border-bottom">
+            <h6 className="mb-3">Products</h6>
+            {cart.map((item, index) => (
+              <div className="d-flex justify-content-between" key={index}>
+                <p>{`${item.product_name} x ${item.quantity}`}</p>
+                <p>{formatdolla(item.totalprice, "$")}</p>
               </div>
-              <div className="border-bottom pt-3 pb-2">
-                <div className="d-flex justify-content-between mb-3">
-                  <h6>Subtotal</h6>
-                  <h6>{formatdolla(location.state.subtotal, "$")}</h6>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <h6 className="font-weight-medium">Shipping</h6>
-                  <h6 className="font-weight-medium">$0</h6>
-                </div>
-                {location.state.voucher != undefined &&
-                  location.state.voucher.status == 3 && (
-                    <div className="d-flex justify-content-between mt-3">
-                      <h6 className="font-weight-medium">{`Voucher ${location.state.voucher.voucher_infor.code_sale}: ${location.state.voucher.voucher_infor.discount}% off sale`}</h6>
-                    </div>
-                  )}
-              </div>
-              <div className="pt-2">
-                <div className="d-flex justify-content-between mt-2">
-                  <h5>Total</h5>
-                  <h5>{formatdolla(location.state.totalPayment, "$")}</h5>
-                </div>
-              </div>
-            </div>
-
-            <button onClick={() => processCheckout()} className="w-100 btn btn-info rounded py-3">
-              Process checkout
-            </button>
+            ))}
           </div>
+          <div className="border-bottom pt-3 pb-2">
+            <div className="d-flex justify-content-between mb-3">
+              <h6>Subtotal</h6>
+              <h6>{formatdolla(location.state.subtotal, "$")}</h6>
+            </div>
+            <div className="d-flex justify-content-between">
+              <h6 className="font-weight-medium">Shipping</h6>
+              <h6 className="font-weight-medium">$0</h6>
+            </div>
+            {location.state.voucher != undefined &&
+              location.state.voucher.status == 3 && (
+                <div className="d-flex justify-content-between mt-3">
+                  <h6 className="font-weight-medium">{`Voucher ${location.state.voucher.voucher_infor.code_sale}: ${location.state.voucher.voucher_infor.discount}% off sale`}</h6>
+                </div>
+              )}
+          </div>
+          <div className="pt-2">
+            <div className="d-flex justify-content-between mt-2">
+              <h5>Total</h5>
+              <h5>{formatdolla(location.state.totalPayment, "$")}</h5>
+            </div>
+          </div>
+
+          <button
+            onClick={() => processCheckout()}
+            className="w-100 btn btn-info rounded py-3"
+          >
+            Process checkout
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -8,7 +8,7 @@ import "./css/style.css";
 
 function App() {
   return (
-    <div className="bg-white">
+    <div className="background-color">
       <ToastContainer
         position="top-right"
         autoClose={2000}

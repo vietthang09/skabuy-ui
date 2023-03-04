@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 import * as fetchAPI from "../../util/fetchAPI";
@@ -11,11 +11,6 @@ import ProductCharacterictis from "../../components/ProductCharacterictis";
 import Stars from "../../components/Stars";
 import ProductItem from "../../components/ProductItem";
 import Slider from "react-slick";
-import { FacebookOutlined } from "@ant-design/icons";
-import {
-  InstagramOutlined,
-  TwitterOutlined,
-} from "@ant-design/icons/lib/icons";
 var lastCommentIndex;
 var firstCommentIndex;
 var currentComments;
@@ -223,26 +218,36 @@ export default function ProductDetail() {
           <img className="ml-1" src="/icons/twitter.png" />
         </div>
 
-        <table border="0" cellspacing="0">
-          <tr>
-            <td align="center"></td>
-          </tr>
-          <tr>
-            <td>
-              <a
-                href="https://www.paypal.com/webapps/mpp/paypal-popup"
-                title="How PayPal Works"
-                onclick="javascript:window.open('https://www.paypal.com/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"
-              >
-                <img
-                  src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg"
-                  border="0"
-                  alt="PayPal Acceptance Mark"
-                />
-              </a>
-            </td>
-          </tr>
-        </table>
+        <div className="row">
+          <div className="col-6">
+            <table border="0" cellspacing="0">
+              <tr>
+                <td align="center"></td>
+              </tr>
+              <tr>
+                <td>
+                  <a
+                    href="https://www.paypal.com/webapps/mpp/paypal-popup"
+                    title="How PayPal Works"
+                    onclick="javascript:window.open('https://www.paypal.com/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"
+                  >
+                    <img
+                      src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg"
+                      border="0"
+                      alt="PayPal Acceptance Mark"
+                    />
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div className="col-6 d-flex align-items-center">
+            <img
+              style={{ width: "100%" }}
+              src="https://static.tildacdn.com/tild6333-3965-4332-b730-663930356132/secure-stripe-paymen.png"
+            />
+          </div>
+        </div>
 
         <div className="row mt-3 d-none d-lg-flex">
           <div className="col-4">
@@ -274,7 +279,7 @@ export default function ProductDetail() {
 
   function RelatedProductsSection() {
     return (
-      <div>
+      <div className="mt-2">
         <h5>Related Products</h5>
         <Slider {...productSliderSettings}>
           {recommendProducts.map((item) => {
@@ -287,7 +292,7 @@ export default function ProductDetail() {
 
   function DescriptionSection() {
     return (
-      <div className="mt-5">
+      <div className="mt-5 p-4 bg-white rounded">
         <h5>Description</h5>
         <hr />
         <div>{parse(productInfor.product_description)}</div>
@@ -297,98 +302,86 @@ export default function ProductDetail() {
 
   function CommentsSection() {
     return (
-      <div className="row px-xl-5" style={{ marginTop: "15px" }}>
-        <div className="col">
-          <div className="bg-light p-30">
-            <div className="mb-4">
-              <Link className="nav-item nav-link text-dark" data-toggle="tab">
-                <h3>Reviews ({comments.length})</h3>
-              </Link>
-              <hr />
+      <div className="mt-5 p-4 bg-white rounded">
+        <h5>Reviews ({comments.length})</h5>
+
+        {userRedux.user !== undefined && userRedux.user !== null ? (
+          <div className="row" style={{ padding: "30px" }}>
+            <div className="col-md-6">
+              {comments && comments.length > 0 && (
+                <CommentList comments={currentComments} />
+              )}
+              <Pagination
+                totalProducts={comments.length}
+                productsPerPage={productsPerPage}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+              />
             </div>
-            <div>
+            <div className="col-md-6">
+              <h4 className="mb-4">Leave a review</h4>
               <div>
-                {userRedux.user !== undefined && userRedux.user !== null ? (
-                  <div className="row" style={{ padding: "30px" }}>
-                    <div className="col-md-6">
-                      {comments && comments.length > 0 && (
-                        <CommentList comments={currentComments} />
-                      )}
-                      <Pagination
-                        totalProducts={comments.length}
-                        productsPerPage={productsPerPage}
-                        setCurrentPage={setCurrentPage}
-                        currentPage={currentPage}
-                      />
-                    </div>
-                    <div className="col-md-6">
-                      <h4 className="mb-4">Leave a review</h4>
-                      <div>
-                        <div className="form-group">
-                          <label htmlFor="name">Your Name :</label>{" "}
-                          <b>{userRedux.user.user_fullname}</b>
-                        </div>
-                        <div className="d-flex form-group">
-                          <p className="mb-0 mr-2">Your Rating * :</p>
-                          <div className="text-primary">
-                            {[...Array(5)].map((star, index) => {
-                              index += 1;
-                              return (
-                                <i
-                                  key={index}
-                                  className={`${
-                                    index <= rating ? "fas" : "far"
-                                  } fa-star`}
-                                  onClick={() => setRating(index)}
-                                  onDoubleClick={() => {
-                                    setRating(0);
-                                  }}
-                                ></i>
-                              );
-                            })}
-                          </div>
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="message">Your Review *</label>
-                          <textarea
-                            id="message"
-                            cols="30"
-                            rows="5"
-                            className="form-control"
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                          ></textarea>
-                        </div>
-                        <div className="form-group mb-0">
-                          <button
-                            className="btn btn-info px-3"
-                            onClick={() => onCreateCommentHandler()}
-                          >
-                            Submit
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                <div className="form-group">
+                  <label htmlFor="name">Your Name :</label>{" "}
+                  <b>{userRedux.user.user_fullname}</b>
+                </div>
+                <div className="d-flex form-group">
+                  <p className="mb-0 mr-2">Your Rating * :</p>
+                  <div className="text-primary">
+                    {[...Array(5)].map((star, index) => {
+                      index += 1;
+                      return (
+                        <i
+                          key={index}
+                          className={`${
+                            index <= rating ? "fas" : "far"
+                          } fa-star`}
+                          onClick={() => setRating(index)}
+                          onDoubleClick={() => {
+                            setRating(0);
+                          }}
+                        ></i>
+                      );
+                    })}
                   </div>
-                ) : (
-                  <div className="row" style={{ padding: "20px" }}>
-                    <div className="col-md-12">
-                      {comments && comments.length > 0 && (
-                        <CommentList comments={currentComments} />
-                      )}
-                      <Pagination
-                        totalProducts={comments.length}
-                        productsPerPage={productsPerPage}
-                        setCurrentPage={setCurrentPage}
-                        currentPage={currentPage}
-                      />
-                    </div>
-                  </div>
-                )}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="message">Your Review *</label>
+                  <textarea
+                    id="message"
+                    cols="30"
+                    rows="5"
+                    className="form-control"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  ></textarea>
+                </div>
+                <div className="form-group mb-0">
+                  <button
+                    className="btn btn-info px-3"
+                    onClick={() => onCreateCommentHandler()}
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="row" style={{ padding: "20px" }}>
+            <div className="col-md-12">
+              {comments && comments.length > 0 && (
+                <CommentList comments={currentComments} />
+              )}
+              <Pagination
+                totalProducts={comments.length}
+                productsPerPage={productsPerPage}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+              />
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -396,7 +389,7 @@ export default function ProductDetail() {
     <>
       {productInfor ? (
         <div className="container mt-lg-5 pt-5">
-          <div className="row">
+          <div className="row bg-white p-2 rounded">
             <div className="col-lg-6">
               <ProductImagesSection />
             </div>
@@ -410,7 +403,87 @@ export default function ProductDetail() {
 
           <DescriptionSection />
 
-          <CommentsSection />
+          <div className="mt-5 p-4 bg-white rounded">
+            <h5>Reviews ({comments.length})</h5>
+
+            {userRedux.user !== undefined && userRedux.user !== null ? (
+              <div className="row" style={{ padding: "30px" }}>
+                <div className="col-md-6">
+                  {comments && comments.length > 0 && (
+                    <CommentList comments={currentComments} />
+                  )}
+                  <Pagination
+                    totalProducts={comments.length}
+                    productsPerPage={productsPerPage}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <h4 className="mb-4">Leave a review</h4>
+                  <div>
+                    <div className="form-group">
+                      <label htmlFor="name">Your Name :</label>{" "}
+                      <b>{userRedux.user.user_fullname}</b>
+                    </div>
+                    <div className="d-flex form-group">
+                      <p className="mb-0 mr-2">Your Rating * :</p>
+                      <div className="text-primary">
+                        {[...Array(5)].map((star, index) => {
+                          index += 1;
+                          return (
+                            <i
+                              key={index}
+                              className={`${
+                                index <= rating ? "fas" : "far"
+                              } fa-star`}
+                              onClick={() => setRating(index)}
+                              onDoubleClick={() => {
+                                setRating(0);
+                              }}
+                            ></i>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="message">Your Review *</label>
+                      <textarea
+                        id="message"
+                        cols="30"
+                        rows="5"
+                        className="form-control"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                      ></textarea>
+                    </div>
+                    <div className="form-group mb-0">
+                      <button
+                        className="btn btn-info px-3"
+                        onClick={() => onCreateCommentHandler()}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="row" style={{ padding: "20px" }}>
+                <div className="col-md-12">
+                  {comments && comments.length > 0 && (
+                    <CommentList comments={currentComments} />
+                  )}
+                  <Pagination
+                    totalProducts={comments.length}
+                    productsPerPage={productsPerPage}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       ) : (
         <h1>Loading</h1>

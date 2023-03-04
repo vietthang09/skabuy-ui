@@ -18,7 +18,8 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { getColumnSearchProps } from "./components/SearchFilter";
 const { RangePicker } = DatePicker;
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
+import { baseURL } from "../../util/constants";
 
 export default function SaleManage() {
   const [AllVoucher, setAllVoucher] = useState([]);
@@ -38,7 +39,7 @@ export default function SaleManage() {
   }, []);
 
   const getAllVoucher = () => {
-    Axios.get("https://nodejs.skabuy.com/shop/getAllSale").then((responsive) => {
+    Axios.get(`${baseURL}/shop/getAllSale`).then((responsive) => {
       if (responsive.data !== undefined) {
         setAllVoucher(responsive.data.data);
         console.log(responsive.data.data);
@@ -53,10 +54,10 @@ export default function SaleManage() {
     } else {
       const date_start = moment(e[0].$d).format("YYYY-MM-DD HH:mm:ss");
       const expired = moment(e[1].$d).format("YYYY-MM-DD HH:mm:ss");
-      console.log(date_start, expired)
+      console.log(date_start, expired);
       const res = await Axios({
         method: "post",
-        url: "https://nodejs.skabuy.com/shop/updateTimeSale",
+        url: `${baseURL}/shop/updateTimeSale`,
         data: {
           date_start: date_start,
           expired: expired,
@@ -68,7 +69,7 @@ export default function SaleManage() {
           setTimeout(() => {
             message.success("Update promo code #" + id + " successful !");
             setloadingTable(false);
-            getAllVoucher()
+            getAllVoucher();
           }, 500);
         } else {
           setTimeout(() => {
@@ -84,7 +85,7 @@ export default function SaleManage() {
     setloadingTable(true);
     const res = await Axios({
       method: "post",
-      url: "https://nodejs.skabuy.com/shop/updateQuanitySale",
+      url: `${baseURL}/shop/updateQuanitySale"`,
       data: {
         quantity: e,
         id: id,
@@ -110,7 +111,7 @@ export default function SaleManage() {
     setloadingBtn(true);
     const res = await Axios({
       method: "post",
-      url: "https://nodejs.skabuy.com/shop/addPromotion",
+      url: `${baseURL}/shop/addPromotion`,
       data: {
         data: dataAddSale,
       },
@@ -253,7 +254,7 @@ export default function SaleManage() {
   const handleDeleteSale = async () => {
     const res = await Axios({
       method: "post",
-      url: "https://nodejs.skabuy.com/shop/deleteSale",
+      url: `${baseURL}/shop/deleteSale`,
       data: {
         id: itemTmp.id,
       },
@@ -322,16 +323,23 @@ export default function SaleManage() {
       render: (record) => <span>{record.used}</span>,
     },
     {
-        title:<div style={{textAlign: 'center'}}><span>Discount period</span></div>,
-        key:'date_start',
-        sorter: (a, b) =>new Date(a.date_start)- new Date(b.date_start),
-        render: (record) =>(
-            <RangePicker 
-                value={[dayjs(record.date_start, "YYYY-MM-DD HH:mm:ss").add(7, 'h'),dayjs(record.expired, "YYYY-MM-DD HH:mm:ss").add(7, 'h')]}
-                showTime 
-                onChange= {(e)=>handleEditDate(e,record.id)}
-            />
-        )
+      title: (
+        <div style={{ textAlign: "center" }}>
+          <span>Discount period</span>
+        </div>
+      ),
+      key: "date_start",
+      sorter: (a, b) => new Date(a.date_start) - new Date(b.date_start),
+      render: (record) => (
+        <RangePicker
+          value={[
+            dayjs(record.date_start, "YYYY-MM-DD HH:mm:ss").add(7, "h"),
+            dayjs(record.expired, "YYYY-MM-DD HH:mm:ss").add(7, "h"),
+          ]}
+          showTime
+          onChange={(e) => handleEditDate(e, record.id)}
+        />
+      ),
     },
     {
       title: "Edit",

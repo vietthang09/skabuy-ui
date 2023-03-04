@@ -65,7 +65,7 @@ export default function Home() {
 
   function CategoriesSection() {
     return (
-      <div className="pt-3 pb-4 my-2 bg-white">
+      <div className="p-4 my-2 bg-white rounded">
         <h4 className="text-center font-weight-bold">Categories.</h4>
         {categories.length > 0 ? (
           <div className="row">
@@ -82,7 +82,7 @@ export default function Home() {
 
   function LastestProductsSection() {
     return (
-      <div className="pt-3 pb-4 my-2 bg-white">
+      <div className="p-2 my-2">
         <h5 className="pl-3">Lasted products</h5>
         {lastedProduct.length > 0 ? (
           <Slider {...sliderSettings}>
@@ -99,7 +99,7 @@ export default function Home() {
 
   function PromotionalProductsSection() {
     return (
-      <div className="pt-3 pb-4 my-2 bg-white">
+      <div className="p-2 my-2">
         <h5 className="pl-3">Promotional products</h5>
         {promotionalProducts.length > 0 ? (
           <Slider {...sliderSettings}>
@@ -115,7 +115,7 @@ export default function Home() {
   }
 
   return (
-    <div className="container bg-white pt-5">
+    <div className="container pt-5">
       <HomeCarousel />
 
       <PromotionalProductsSection />
@@ -127,19 +127,19 @@ export default function Home() {
       <LastestProductsSection />
       <PromotionalProductsSection />
 
-      <img className=" w-100" src="/banners/banner_7.jpg" />
+      <img className="mt-2 w-100" src="/banners/banner_7.jpg" />
       <PromotionalProductsSection />
       <LastestProductsSection />
 
-      <img className=" w-100" src="/banners/banner_8.jpg" />
+      <img className="mt-2 w-100" src="/banners/banner_8.jpg" />
       <LastestProductsSection />
       <PromotionalProductsSection />
 
-      <img className=" w-100" src="/banners/banner_9.jpg" />
+      <img className="mt-2 w-100" src="/banners/banner_9.jpg" />
       <PromotionalProductsSection />
       <LastestProductsSection />
 
-      <img className=" w-100" src="/banners/banner_10.jpg" />
+      <img className="mt-2 w-100" src="/banners/banner_10.jpg" />
     </div>
   );
 }

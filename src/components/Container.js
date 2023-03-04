@@ -3,7 +3,7 @@ import { useState } from "react";
 import Home from "../pages/client/Home";
 import Login from "../pages/client/Login";
 import Register from "../pages/client/Register";
-import ShoppingCart from "../pages/client/ShoppingCart";
+import Cart from "../pages/client/Cart";
 import Wishlist from "../pages/client/Wishlist";
 import Profile from "../pages/client/Profile";
 import SearchResult from "../pages/client/SearchResult";
@@ -17,7 +17,7 @@ import Admin from "../pages/admin/Admin";
 export default function Container() {
   const [updateCart, setUpdateCart] = useState(false);
   return (
-    <div className="bg-white">
+    <div className="background-color">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -25,7 +25,7 @@ export default function Container() {
         <Route path="/home" element={<Home />} />
         <Route
           path="/shoppingcart"
-          element={<ShoppingCart setUpdateCart={setUpdateCart} />}
+          element={<Cart setUpdateCart={setUpdateCart} />}
         />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/profile" element={<Profile />} />

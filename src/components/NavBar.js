@@ -59,7 +59,7 @@ export default function NavBar() {
                     className="text-white w-100"
                     style={{ fontSize: 24 }}
                   />
-                  <h6 className="text-white">Login</h6>
+                  <h6 className="text-white">Wishlist</h6>
                 </div>
               </Link>
               <Link
@@ -88,7 +88,7 @@ export default function NavBar() {
               <NavLink to="/" className={currentPage == 0 && "text-info"}>
                 <HomeOutlined
                   onClick={() => setCurrentPage(0)}
-                  style={{ fontSize: 24 }}
+                  style={{ fontSize: 32 }}
                 />
               </NavLink>
               <NavLink
@@ -97,7 +97,7 @@ export default function NavBar() {
               >
                 <HeartOutlined
                   onClick={() => setCurrentPage(1)}
-                  style={{ fontSize: 24 }}
+                  style={{ fontSize: 32 }}
                 />
               </NavLink>
               <NavLink
@@ -106,7 +106,7 @@ export default function NavBar() {
               >
                 <UserOutlined
                   onClick={() => setCurrentPage(2)}
-                  style={{ fontSize: 24 }}
+                  style={{ fontSize: 32 }}
                 />
               </NavLink>
             </div>

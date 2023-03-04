@@ -5,6 +5,7 @@ import cookie from "react-cookies";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { loginUser } from "../../redux/actions/loginUser";
+import { baseURL } from "../../util/constants";
 
 export default function LoginAdmin() {
   const [user_emaillg, setUser_emaillg] = useState("");
@@ -22,7 +23,7 @@ export default function LoginAdmin() {
     try {
       const res = await Axios({
         method: "post",
-        url: "https://nodejs.skabuy.com/user/login",
+        url: `${baseURL}/user/login`,
         data: {
           user_email: user_emaillg,
           password: passwordlg,
@@ -54,7 +55,7 @@ export default function LoginAdmin() {
   const finish = async (token) => {
     const res = await Axios({
       method: "post",
-      url: "https://nodejs.skabuy.com/user/getUser",
+      url: `${baseURL}/user/getUser`,
       data: {
         token: JSON.parse(token),
       },
@@ -94,7 +95,7 @@ export default function LoginAdmin() {
   return (
     <>
       <div className="container bg-white">
-        <div className="row px-xl-5"> 
+        <div className="row px-xl-5">
           <div className="col-lg-3"></div>
           <div className="col-lg-6">
             <h5 className="section-title position-relative text-uppercase mb-3">

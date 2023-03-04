@@ -1,4 +1,14 @@
 /* 
+  Bootstrap
+*/
+.background-color {
+  background-color: #f8f8fc;
+}
+
+/* 
+  End Bootstrap
+*/
+/* 
   Carousel
 */
 
@@ -17,6 +27,7 @@
 }
 .product-item_content {
   padding: 0 10px;
+  position: relative;
 }
 .product-item_image {
   width: 100px;
@@ -36,12 +47,6 @@
   min-height: 2.5em;
   /* border: red 1px solid; */
 }
-.product-item_saving {
-  display: block;
-  font-size: 0.75em;
-  font-weight: 500;
-  color: #ec0439;
-}
 .product-item_saving_line {
   font-size: 0.75em;
   font-weight: 500;
@@ -55,7 +60,8 @@
 }
 .product-item_promo-flag {
   position: absolute;
-  top: 1.75rem;
+  bottom: 1rem;
+  right: 0;
   color: rgb(255, 255, 255);
   background-color: rgb(176, 0, 0);
   font-size: 0.55rem;
@@ -88,4 +94,14 @@
 }
 /* 
   End Product Item
+*/
+
+/* 
+  Product Detail
+*/
+figure.image img {
+  width: 75vw;
+}
+/* 
+  End Product Detail
 */

@@ -20,7 +20,7 @@ export default function AccountUser() {
   const [isReload, setIsReload] = useState(false);
   useEffect(() => {
     loadUsers();
-    setIsReload(false)
+    setIsReload(false);
   }, [isReload]);
 
   async function loadUsers() {
@@ -131,7 +131,7 @@ export default function AccountUser() {
   const updateStatusUser = async (e, id) => {
     const res = await Axios({
       method: "post",
-      url: "https://nodejs.skabuy.com/user/updateStatusUser",
+      url: `${baseURL}/user/updateStatusUser`,
       data: {
         user_id: id,
         status: e,

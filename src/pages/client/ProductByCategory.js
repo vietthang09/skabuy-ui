@@ -98,117 +98,97 @@ export default function ProductByCategory() {
   function FilterSection() {
     return (
       <>
-        <h5 className="section-title position-relative text-uppercase mb-3">
-          <span className="bg-secondary pr-3">Filter by price</span>
-        </h5>
-        <div className="bg-light p-4 mb-30">
-          <div>
-            {attributes.max_price &&
-              divPriceToArray(attributes.max_price).map((item, index) => {
-                return (
-                  <div
-                    className="custom-control custom-checkbox d-flex align-items-center justify-content-between mt-3"
-                    key={index}
+        <div className="p-4 bg-white shadow rounded">
+          <h5>Filter by price</h5>
+          {attributes.max_price &&
+            divPriceToArray(attributes.max_price).map((item, index) => {
+              return (
+                <div
+                  className="custom-control custom-checkbox d-flex align-items-center justify-content-between mt-3"
+                  key={index}
+                >
+                  <input
+                    type="checkbox"
+                    className="custom-control-input"
+                    id={`price-${index}`}
+                    onChange={() =>
+                      onSelectAttributeHandler("price", "price", item.data)
+                    }
+                  />
+                  <label
+                    className="custom-control-label"
+                    htmlFor={`price-${index}`}
                   >
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id={`price-${index}`}
-                      onChange={() =>
-                        onSelectAttributeHandler("price", "price", item.data)
-                      }
-                    />
-                    <label
-                      className="custom-control-label"
-                      htmlFor={`price-${index}`}
-                    >
-                      {item.text}
-                    </label>
-                  </div>
-                );
-              })}
-          </div>
+                    {item.text}
+                  </label>
+                </div>
+              );
+            })}
         </div>
 
-        <h5 className="section-title position-relative text-uppercase mb-3">
-          <span className="bg-secondary pr-3">Filter by trademark</span>
-        </h5>
-
-        <div className="bg-light p-3 mb-30">
-          <div>
-            {attributes.trademarks &&
-              attributes.trademarks.map((item, index) => {
-                return (
-                  <div
-                    className="custom-control custom-checkbox d-flex align-items-center justify-content-between mt-3"
-                    key={index}
+        <div className="border-top p-4 bg-white shadow rounded">
+          <h5>Filter by trademark</h5>
+          {attributes.trademarks &&
+            attributes.trademarks.map((item, index) => {
+              return (
+                <div
+                  className="custom-control custom-checkbox d-flex align-items-center justify-content-between mt-3"
+                  key={index}
+                >
+                  <input
+                    type="checkbox"
+                    className="custom-control-input"
+                    id={`trademark-${index}`}
+                    onChange={() => {
+                      onSelectAttributeHandler("trademark", "trademark", item);
+                    }}
+                  />
+                  <label
+                    className="custom-control-label"
+                    htmlFor={`trademark-${index}`}
                   >
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id={`trademark-${index}`}
-                      onChange={() => {
-                        onSelectAttributeHandler(
-                          "trademark",
-                          "trademark",
-                          item
-                        );
-                      }}
-                    />
-                    <label
-                      className="custom-control-label"
-                      htmlFor={`trademark-${index}`}
-                    >
-                      {item}
-                    </label>
-                  </div>
-                );
-              })}
-          </div>
+                    {item}
+                  </label>
+                </div>
+              );
+            })}
         </div>
 
         {attributes.attributes &&
           attributes.attributes.map((item, index) => {
             return (
-              <div key={index}>
-                <h5 className="section-title position-relative text-uppercase mb-3">
-                  <span className="bg-secondary pr-3">{`Filter by ${
-                    Object.keys(item)[0]
-                  }`}</span>
-                </h5>
-                <div className="bg-light p-4 mb-30">
-                  <div>
-                    {item[Object.keys(item)[0]].data.map(
-                      (attItem, attIndex) => {
-                        return (
-                          <div
-                            className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                            key={attIndex}
-                          >
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id={`${Object.keys(item)[0]}-${attIndex}`}
-                              onChange={() => {
-                                onSelectAttributeHandler(
-                                  item[Object.keys(item)[0]].id,
-                                  Object.keys(item)[0],
-                                  attItem
-                                );
-                              }}
-                            />
-                            <label
-                              className="custom-control-label"
-                              htmlFor={`${Object.keys(item)[0]}-${attIndex}`}
-                            >
-                              {`${attItem} ${item[Object.keys(item)[0]].unit}`}
-                            </label>
-                          </div>
-                        );
-                      }
-                    )}
-                  </div>
-                </div>
+              <div
+                className="border-top p-4 bg-white shadow rounded"
+                key={index}
+              >
+                <h5>{`Filter by ${Object.keys(item)[0]}`}</h5>
+                {item[Object.keys(item)[0]].data.map((attItem, attIndex) => {
+                  return (
+                    <div
+                      className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
+                      key={attIndex}
+                    >
+                      <input
+                        type="checkbox"
+                        className="custom-control-input"
+                        id={`${Object.keys(item)[0]}-${attIndex}`}
+                        onChange={() => {
+                          onSelectAttributeHandler(
+                            item[Object.keys(item)[0]].id,
+                            Object.keys(item)[0],
+                            attItem
+                          );
+                        }}
+                      />
+                      <label
+                        className="custom-control-label"
+                        htmlFor={`${Object.keys(item)[0]}-${attIndex}`}
+                      >
+                        {`${attItem} ${item[Object.keys(item)[0]].unit}`}
+                      </label>
+                    </div>
+                  );
+                })}
               </div>
             );
           })}
@@ -247,9 +227,10 @@ export default function ProductByCategory() {
       </button>
 
       <div className="row mt-5 d-none d-lg-flex">
-        <div className="col-4">
+        <div className="col-3">
           <FilterSection />
         </div>
+        <div className="col-1"></div>
         <div className="col-8">
           <ProductsSection />
         </div>

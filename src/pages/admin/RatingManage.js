@@ -21,8 +21,8 @@ export default function RatingManage() {
   async function loadComments() {
     const response = await sendGetRequest(`${baseURL}/comment/allRating`);
     if (response.status == "success") {
-        setRating(response.data);
-        setshowContent(true);
+      setRating(response.data);
+      setshowContent(true);
     } else {
       showToast("ERROR", "There are some mistake!");
     }
@@ -31,7 +31,7 @@ export default function RatingManage() {
   const handleDeleteSale = async () => {
     const res = await Axios({
       method: "post",
-      url: "https://nodejs.skabuy.com/shop/deleteSale",
+      url: `${baseURL}/shop/deleteSale`,
       data: {
         id: itemTmp.id,
       },
@@ -86,11 +86,7 @@ export default function RatingManage() {
       title: "Price",
       key: "product_price",
       sorter: (a, b) => a.product_price - b.product_price,
-      render: (record) => (
-        <span>
-          {formatdolla(record.product_price, "$")}
-        </span>
-      ),
+      render: (record) => <span>{formatdolla(record.product_price, "$")}</span>,
     },
     {
       title: "Rating",
@@ -149,7 +145,7 @@ export default function RatingManage() {
             <Table
               showSorterTooltip={{ title: "Tap to sort" }}
               columns={columns}
-              dataSource={rating} 
+              dataSource={rating}
               loading={loadingTable}
               style={overflowX ? { overflowX: "scroll" } : null}
             />

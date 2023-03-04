@@ -2,12 +2,7 @@ import { Table, Tabs, Tag } from "antd";
 import TabPane from "antd/es/tabs/TabPane";
 import { Link } from "react-router-dom";
 import { Modal } from "antd";
-import {
-  discountPrice,
-  formatdate,
-  formatdolla,
-  showToast,
-} from "../../../util/helper";
+import { discountPrice, formatdolla, showToast } from "../../../util/helper";
 import { useSelector } from "react-redux";
 import AccountVerificationForm from "./AccountVerificationForm";
 import { useEffect, useState } from "react";
@@ -153,14 +148,12 @@ export const OrderBox = () => {
       });
     }
     return (
-      <div className="wrapperTableBill">
-        <Table
-          columns={columns}
-          dataSource={dataTmp}
-          size="small"
-          locale={{ emptyText: "You don't have any orders yet" }}
-        />
-      </div>
+      <Table
+        columns={columns}
+        dataSource={dataTmp}
+        size="small"
+        locale={{ emptyText: "You don't have any orders yet" }}
+      />
     );
   };
 
@@ -292,19 +285,17 @@ export const OrderBox = () => {
                   <h5>{formatdolla(currentOrder.total_price, "$")}</h5>
                   {currentOrder.method_payment === 0 ? (
                     <Tag color={"red"}>UnPaid</Tag>
-                  ): currentOrder.method_payment === 1 ? (
+                  ) : currentOrder.method_payment === 1 ? (
                     <Tag color={"green"}>Paid</Tag>
-                  ):(
+                  ) : (
                     <Tag color={"green"}>Paid</Tag>
                   )}
                 </div>
               </div>
             </Modal>
           )}
-          <h5 className="section-title position-relative text-uppercase mb-3">
-            <span className="bg-secondary pr-3">My orders</span>
-          </h5>
-          <div className="bg-light p-30 mb-5">
+          <div className="p-4 bg-white rounded">
+            <h5>My orders</h5>
             <Tabs defaultActiveKey="0" centered onChange={(e) => setKeyTab(e)}>
               <TabPane tab="All orders" key="0">
                 <TabContent />

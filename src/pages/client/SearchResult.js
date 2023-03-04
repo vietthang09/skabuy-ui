@@ -68,36 +68,30 @@ export default function SearchResult() {
 
   function FilterSection() {
     return (
-      <>
-        <h5 className="section-title position-relative text-uppercase mb-3">
-          <span className="bg-secondary pr-3">Filter by price</span>
-        </h5>
-        <div className="bg-light p-4 mb-30">
-          <div>
-            {divPriceToArray(maxPrice).map((item, index) => {
-              return (
-                <div
-                  className="custom-control custom-checkbox d-flex align-items-center justify-content-between mt-3"
-                  key={index}
-                >
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id={`price-${index}`}
-                    onChange={() => onSelectPriceHandler(item.data)}
-                  />
-                  <label
-                    className="custom-control-label"
-                    htmlFor={`price-${index}`}
-                  >
-                    {item.text}
-                  </label>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </>
+      <div className="p-4 bg-white shadow rounded">
+        <h5>Filter by price</h5>
+        {divPriceToArray(maxPrice).map((item, index) => {
+          return (
+            <div
+              className="custom-control custom-checkbox d-flex align-items-center justify-content-between mt-3"
+              key={index}
+            >
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id={`price-${index}`}
+                onChange={() => onSelectPriceHandler(item.data)}
+              />
+              <label
+                className="custom-control-label"
+                htmlFor={`price-${index}`}
+              >
+                {item.text}
+              </label>
+            </div>
+          );
+        })}
+      </div>
     );
   }
 
@@ -136,9 +130,10 @@ export default function SearchResult() {
       </button>
 
       <div className="row mt-5 d-none d-lg-flex">
-        <div className="col-4">
+        <div className="col-3">
           <FilterSection />
         </div>
+        <div className="col-1"></div>
         <div className="col-8">
           <ProductsSection />
         </div>
