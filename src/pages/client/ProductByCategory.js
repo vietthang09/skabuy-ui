@@ -17,7 +17,7 @@ export default function ProductByCategory() {
     attributes: {},
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(12);
+  const [productsPerPage, setProductsPerPage] = useState(16);
 
   async function loadProducts() {
     const response = await sendGetRequest(

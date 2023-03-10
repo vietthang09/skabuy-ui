@@ -4,44 +4,48 @@ import * as CONSTANTS from "../../util/constants";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { formatdolla, showToast } from "../../util/helper";
+import { sendPostRequest } from "../../util/fetchAPI";
 export default function Checkout(props) {
   const navigate = useNavigate();
   const userRedux = useSelector((state) => state.user);
   const [cart, setCart] = useState([]);
+  const [edit, setEdit] = useState(false);
   const [userInfor, setUserInfor] = useState({
+    user_id: userRedux.user.user_id,
     user_fullname: userRedux.user.user_fullname,
     user_email: userRedux.user.user_email,
     user_phone_number: userRedux.user.user_phone_number,
     user_address: userRedux.user.user_address,
     user_gender: userRedux.user.user_gender,
+    user_date_of_birth: userRedux.user.user_date_of_birth,
   });
   const location = useLocation();
-  let unCombinedAddress = userInfor.user_address.split(", ", 5);
-  const [newAddress, setNewAddress] = useState({
-    country: unCombinedAddress[4],
-    province: unCombinedAddress[3],
-    district: unCombinedAddress[2],
-    ward: unCombinedAddress[1],
-    specific: unCombinedAddress[0],
-  });
   const loadCartData = () => {
     setCart(JSON.parse(getCookie(CONSTANTS.cartCookie)));
   };
 
-  function processCheckout() {
+  async function processCheckout() {
     if (
       userInfor.user_fullname === "" ||
       userInfor.user_email === "" ||
       userInfor.user_phone_number === "" ||
       userInfor.user_gender === "-- Gender --" ||
-      newAddress.country === undefined ||
-      newAddress.province === undefined ||
-      newAddress.district === undefined ||
-      newAddress.ward === undefined ||
-      newAddress.specific === undefined
+      userInfor.user_address === ""
     ) {
       showToast("WARNING", "Invalid information!");
     } else {
+      if (edit) {
+        const response = await sendPostRequest(
+          `${CONSTANTS.baseURL}/user/editUser`,
+          userInfor
+        );
+        if (response.status == "error") {
+          showToast("ERROR", response.message);
+        } else {
+          cookie.save("user", userInfor);
+          showToast("SUCCESS", "Update successfully!");
+        }
+      }
       let dataProduct = [];
       cart.map((item) => {
         let newProduct = {
@@ -81,14 +85,6 @@ export default function Checkout(props) {
   }
 
   useEffect(() => {
-    let combinedAddress = `${newAddress.specific}, ${newAddress.ward}, ${newAddress.district}, ${newAddress.province}, ${newAddress.country}`;
-    setUserInfor((current) => ({
-      ...current,
-      user_address: combinedAddress,
-    }));
-  }, [newAddress]);
-
-  useEffect(() => {
     loadCartData();
   }, []);
 
@@ -104,12 +100,13 @@ export default function Checkout(props) {
                 className="form-control"
                 type="text"
                 value={userInfor.user_fullname}
-                onChange={(e) =>
+                onChange={(e) => {
                   setUserInfor((current) => ({
                     ...current,
                     user_fullname: e.target.value,
-                  }))
-                }
+                  }));
+                  setEdit(true);
+                }}
               />
             </div>
             <div className="col-md-6 form-group">
@@ -118,12 +115,13 @@ export default function Checkout(props) {
                 className="form-control"
                 type="text"
                 value={userInfor.user_phone_number}
-                onChange={(e) =>
+                onChange={(e) => {
                   setUserInfor((current) => ({
                     ...current,
                     user_phone_number: e.target.value,
-                  }))
-                }
+                  }));
+                  setEdit(true);
+                }}
               />
             </div>
             <div className="col-md-6 form-group">
@@ -132,12 +130,7 @@ export default function Checkout(props) {
                 className="form-control"
                 type="text"
                 value={userInfor.user_email}
-                onChange={(e) =>
-                  setUserInfor((current) => ({
-                    ...current,
-                    user_email: e.target.value,
-                  }))
-                }
+                disabled
               />
             </div>
             <div className="col-md-6 form-group">
@@ -145,12 +138,13 @@ export default function Checkout(props) {
               <select
                 className="form-control"
                 name="gender"
-                onChange={(e) =>
+                onChange={(e) => {
                   setUserInfor((current) => ({
                     ...current,
                     user_gender: e.target.value,
-                  }))
-                }
+                  }));
+                  setEdit(true);
+                }}
                 defaultValue={userInfor.user_gender}
               >
                 <option>-- Gender --</option>
@@ -159,73 +153,18 @@ export default function Checkout(props) {
               </select>
             </div>
             <div className="col-md-12 form-group">
-              <label>Specific</label>
+              <label>Address</label>
               <input
                 className="form-control"
                 type="text"
-                value={newAddress.specific}
-                onChange={(e) =>
-                  setNewAddress((current) => ({
+                value={userInfor.user_address}
+                onChange={(e) => {
+                  setUserInfor((current) => ({
                     ...current,
-                    specific: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="col-md-6 form-group">
-              <label>Ward</label>
-              <input
-                className="form-control"
-                type="text"
-                value={newAddress.ward}
-                onChange={(e) =>
-                  setNewAddress((current) => ({
-                    ...current,
-                    ward: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="col-md-6 form-group">
-              <label>District</label>
-              <input
-                className="form-control"
-                type="text"
-                value={newAddress.district}
-                onChange={(e) =>
-                  setNewAddress((current) => ({
-                    ...current,
-                    district: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="col-md-6 form-group">
-              <label>Province</label>
-              <input
-                className="form-control"
-                type="text"
-                value={newAddress.province}
-                onChange={(e) =>
-                  setNewAddress((current) => ({
-                    ...current,
-                    province: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="col-md-6 form-group">
-              <label>Country</label>
-              <input
-                className="form-control"
-                type="text"
-                value={newAddress.country}
-                onChange={(e) =>
-                  setNewAddress((current) => ({
-                    ...current,
-                    country: e.target.value,
-                  }))
-                }
+                    user_address: e.target.value,
+                  }));
+                  setEdit(true);
+                }}
               />
             </div>
           </div>

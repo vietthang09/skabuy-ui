@@ -69,7 +69,6 @@ export default function Cart(props) {
     setApplied(false);
   };
   const onCheckoutHandler = () => {
-    console.log("checkout");
     navigate("/checkout", {
       state: {
         subtotal: subtotal,
@@ -95,52 +94,8 @@ export default function Cart(props) {
     loadCartData();
     loadTotalPayment();
     props.setUpdateCart(true);
-  }, []);
+  }, [cart]);
 
-  function CartSummarySection() {
-    return (
-      <div className="p-4 bg-white shadow rounded">
-        <h5>Cart Summary</h5>
-        <div className="border-bottom pb-2">
-          <div className="d-flex justify-content-between mb-3">
-            <h6>Subtotal</h6>
-            <h6>{formatdolla(subtotal, "$")}</h6>
-          </div>
-          <div className="d-flex justify-content-between pb-2">
-            <h6 className="font-weight-medium">Shipping</h6>
-            <h6 className="font-weight-medium">0$</h6>
-          </div>
-          {applied && (
-            <div className="d-flex justify-content-between align-items-center pb-2">
-              <h6 className="font-weight-medium">{`Voucher ${voucherInfor.voucher_infor.code_sale}: ${voucherInfor.voucher_infor.discount}% off sale`}</h6>
-              <button
-                className="btn btn-sm btn-danger"
-                onClick={() => onCancelApplyVoucher()}
-              >
-                <i className="fa fa-times"></i>
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="pt-2">
-          <div className="d-flex justify-content-between mt-2">
-            <h5>Total</h5>
-            <h5>
-              {cart != undefined ? formatdolla(totalPayment, "$") : "$0.00"}
-            </h5>
-          </div>
-          {cart != undefined && (
-            <button
-              className="btn btn-block btn-info font-weight-bold my-3 py-3 rounded"
-              onClick={() => onCheckoutHandler()}
-            >
-              Proceed To Checkout
-            </button>
-          )}
-        </div>
-      </div>
-    );
-  }
   return (
     <div className="container pt-5 mt-5">
       <div className="row">
@@ -273,7 +228,46 @@ export default function Cart(props) {
               </div>
             </div>
           )}
-          <CartSummarySection />
+          <div className="p-4 bg-white shadow rounded">
+            <h5>Cart Summary</h5>
+            <div className="border-bottom pb-2">
+              <div className="d-flex justify-content-between mb-3">
+                <h6>Subtotal</h6>
+                <h6>{formatdolla(subtotal, "$")}</h6>
+              </div>
+              <div className="d-flex justify-content-between pb-2">
+                <h6 className="font-weight-medium">Shipping</h6>
+                <h6 className="font-weight-medium">0$</h6>
+              </div>
+              {applied && (
+                <div className="d-flex justify-content-between align-items-center pb-2">
+                  <h6 className="font-weight-medium">{`Voucher ${voucherInfor.voucher_infor.code_sale}: ${voucherInfor.voucher_infor.discount}% off sale`}</h6>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => onCancelApplyVoucher()}
+                  >
+                    <i className="fa fa-times"></i>
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="pt-2">
+              <div className="d-flex justify-content-between mt-2">
+                <h5>Total</h5>
+                <h5>
+                  {cart != undefined ? formatdolla(totalPayment, "$") : "$0.00"}
+                </h5>
+              </div>
+              {cart != undefined && (
+                <button
+                  className="btn btn-block btn-info font-weight-bold my-3 py-3 rounded"
+                  onClick={() => onCheckoutHandler()}
+                >
+                  Proceed To Checkout
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

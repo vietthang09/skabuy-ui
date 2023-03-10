@@ -20,14 +20,6 @@ function Profile() {
     user_gender: "",
     user_date_of_birth: "",
   });
-
-  const [newAddress, setNewAddress] = useState({
-    country: "",
-    province: "",
-    district: "",
-    ward: "",
-    specific: "",
-  });
   // end states for profile
   // states for orders
 
@@ -39,11 +31,6 @@ function Profile() {
       userInfor.user_fullname == "" ||
       userInfor.user_phone_number == "" ||
       userInfor.user_gender == "-- Gender --" ||
-      newAddress.country == "" ||
-      newAddress.province == "" ||
-      newAddress.district == "" ||
-      newAddress.ward == "" ||
-      newAddress.specific == "" ||
       userInfor.user_date_of_birth == ""
     ) {
       showToast("WARNING", "Please fill in all the information");
@@ -73,26 +60,8 @@ function Profile() {
         user_gender: userRedux.user.user_gender,
         user_date_of_birth: userRedux.user.user_date_of_birth,
       });
-
-      let unCombinedAddress = userInfor.user_address.split(", ", 5);
-      setNewAddress({
-        country: unCombinedAddress[4],
-        province: unCombinedAddress[3],
-        district: unCombinedAddress[2],
-        ward: unCombinedAddress[1],
-        specific: unCombinedAddress[0],
-      });
     }
   }, []);
-  useEffect(() => {
-    if (userRedux.user != undefined && userRedux.user != null) {
-      let combinedAddress = `${newAddress.specific}, ${newAddress.ward}, ${newAddress.district}, ${newAddress.province}, ${newAddress.country}`;
-      setUserInfor((current) => ({
-        ...current,
-        user_address: combinedAddress,
-      }));
-    }
-  }, [newAddress]);
 
   function ProfileSection() {
     return (
@@ -162,72 +131,16 @@ function Profile() {
               </option>
             </select>
           </div>
-          <div className="col-md-6 form-group">
-            <label>Country</label>
-            <input
-              className="form-control"
-              type="text"
-              value={newAddress.country}
-              onChange={(e) =>
-                setNewAddress((current) => ({
-                  ...current,
-                  country: e.target.value,
-                }))
-              }
-            />
-          </div>
-          <div className="col-md-6 form-group">
-            <label>Province</label>
-            <input
-              className="form-control"
-              type="text"
-              value={newAddress.province}
-              onChange={(e) =>
-                setNewAddress((current) => ({
-                  ...current,
-                  province: e.target.value,
-                }))
-              }
-            />
-          </div>
-          <div className="col-md-6 form-group">
-            <label>District</label>
-            <input
-              className="form-control"
-              type="text"
-              value={newAddress.district}
-              onChange={(e) =>
-                setNewAddress((current) => ({
-                  ...current,
-                  district: e.target.value,
-                }))
-              }
-            />
-          </div>
-          <div className="col-md-6 form-group">
-            <label>Ward</label>
-            <input
-              className="form-control"
-              type="text"
-              value={newAddress.ward}
-              onChange={(e) =>
-                setNewAddress((current) => ({
-                  ...current,
-                  ward: e.target.value,
-                }))
-              }
-            />
-          </div>
           <div className="col-md-12 form-group">
-            <label>Specific</label>
+            <label>Address</label>
             <input
               className="form-control"
               type="text"
-              value={newAddress.specific}
+              value={userInfor.user_address}
               onChange={(e) =>
-                setNewAddress((current) => ({
+                setUserInfor((current) => ({
                   ...current,
-                  specific: e.target.value,
+                  user_address: e.target.value,
                 }))
               }
             />
@@ -249,7 +162,10 @@ function Profile() {
             />
           </div>
           <div className="col-md-12 form-group">
-            <button className="btn btn-info success" onClick={() => onSaveHandler()}>
+            <button
+              className="btn btn-info success"
+              onClick={() => onSaveHandler()}
+            >
               Save
             </button>
           </div>

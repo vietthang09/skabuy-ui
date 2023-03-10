@@ -262,22 +262,20 @@ export default function CategoryManage() {
           //   },
           // ]}
         >
-          <ImgCrop rotate grid aspect={1.5 / 2.2}>
-            <Upload
-              action={`${baseURL}/uploads/cloudinary-upload`}
-              listType="picture-card"
-              name="image"
-              fileList={logoCategory}
-              onChange={onChangeImage}
-            >
-              {logoCategory.length === 0 && (
-                <div>
-                  <UploadOutlined />
-                  <span>Upload photos</span>
-                </div>
-              )}
-            </Upload>
-          </ImgCrop>
+          <Upload
+            action={`${baseURL}/uploads/cloudinary-upload`}
+            listType="picture-card"
+            name="image"
+            fileList={logoCategory}
+            onChange={onChangeImage}
+          >
+            {logoCategory.length === 0 && (
+              <div>
+                <UploadOutlined />
+                <span>Upload photos</span>
+              </div>
+            )}
+          </Upload>
         </Form.Item>
         <Form.Item
           style={{ paddingTop: 20 }}

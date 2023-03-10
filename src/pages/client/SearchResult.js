@@ -15,7 +15,7 @@ export default function SearchResult() {
   const [maxPrice, setMaxPrice] = useState(0);
   const [selectedPrice, setSelectedPrice] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(12);
+  const [productsPerPage, setProductsPerPage] = useState(16);
   const loadProductWithKeyword = async () => {
     const data = {
       keyword: keyword,

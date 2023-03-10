@@ -5,10 +5,17 @@ import { useLocation, useNavigate } from "react-router";
 import { formatdolla, showToast } from "../../util/helper";
 import { sendPostRequest } from "../../util/fetchAPI";
 import Paypal from "./components/Paypal";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "../../components/CheckoutForm";
+const stripePromise = loadStripe(
+  "pk_test_51MeKYkFcODX6xQGLdPONtrQ5U6JaloXZRia0pEtnbjaWRTrzK2DPf2SXdazWaVheY4d1eiCwk7cut5kGH9PvV4CA00eRvulQza"
+);
 export default function ProcessCheckout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [cart, setCart] = useState([]);
+  const [clientSecret, setClientSecret] = useState("");
 
   const loadCartData = () => {
     setCart(JSON.parse(getCookie(CONSTANTS.cartCookie)));
@@ -30,9 +37,30 @@ export default function ProcessCheckout() {
     }
   };
 
+  async function loadStripeIntent() {
+    const response = await sendPostRequest(
+      `${CONSTANTS.baseURL}/payment/create-payment-intent`,
+      { price: location.state.checkoutData.total_price }
+    );
+    if (response.status == "error") {
+      showToast("ERROR", response.message);
+    } else {
+      setClientSecret(response.data);
+    }
+  }
+
   useEffect(() => {
     loadCartData();
+    loadStripeIntent();
   }, []);
+
+  const appearance = {
+    theme: "stripe",
+  };
+  const options = {
+    clientSecret,
+    appearance,
+  };
 
   return (
     <div className="container mt-5 pt-5">
@@ -117,11 +145,18 @@ export default function ProcessCheckout() {
 
         <div className="col-lg-6">
           <div className="p-4 bg-white rouned">
-            <h5>Pay with Paypal</h5>
+            <h5>Payment</h5>
             <Paypal
               totalPrice={location.state.checkoutData.total_price}
               handleOrder={onPayHandler}
             />
+
+            <h5 className="text-center">OR</h5>
+            {clientSecret && (
+              <Elements options={options} stripe={stripePromise}>
+                <CheckoutForm />
+              </Elements>
+            )}
           </div>
         </div>
       </div>
