@@ -12,10 +12,12 @@ export default function CategoryItem({ category }) {
             name: category.category_name,
           }}
         >
-          <img
-            style={{ width: "90px", height: "90px", objectFit: "contain" }}
-            src={category.category_image}
-          />
+          <div className="d-flex justify-content-center">
+            <img
+              style={{ width: "90px", height: "90px", objectFit: "contain" }}
+              src={category.category_image}
+            />
+          </div>
           <p
             className="d-block text-center font-weight-bold"
             style={{ color: "#424242" }}

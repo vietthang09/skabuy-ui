@@ -159,7 +159,7 @@ export default function NavBar() {
           className="dropdown-menu rounded-lg shadow"
           aria-labelledby="dropdownMenuButton"
         >
-          <div className="row" style={{ width: "50vw" }}>
+          <div className="row" style={{ width: "60vw" }}>
             {categories.map((category, index) => {
               return <CategoryItem category={category} key={index} />;
             })}

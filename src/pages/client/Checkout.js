@@ -58,7 +58,7 @@ export default function Checkout(props) {
       phonenumber: userInfor.user_phone_number,
       address: userInfor.user_address,
       total_price: location.state.totalPayment,
-      method_payment: 1,
+      method_payment: 0,
       paymentInfo: null,
       voucher:
         location.state.voucher != undefined

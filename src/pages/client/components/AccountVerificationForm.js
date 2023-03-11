@@ -168,7 +168,7 @@ export default function AccountVerificationForm(props) {
                 <span className="pr-3">Verify your email address</span>
               </h4>
               <span>
-                Please confirm that you want to use this as your HLE Ecommerce
+                Please confirm that you want to use this as your SKA Buy
                 account email address.
                 <br /> Once it's done you will be able to start buying!
               </span>

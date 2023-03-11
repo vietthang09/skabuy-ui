@@ -121,10 +121,8 @@ export default function Invoices() {
         return (
           <span>
             {record.method_payment == 0
-              ? "Cash on delivery"
-              : record.method_payment == 1
               ? "Paywith with Paypal"
-              : "Paywith with Vnpay"}
+              : "Paywith with Stripe"}
           </span>
         );
       },

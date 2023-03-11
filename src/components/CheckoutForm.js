@@ -101,6 +101,7 @@ export default function CheckoutForm({ orderDetail }) {
   }, [createOrder]);
 
   async function postOrder() {
+    orderDetail.method_payment = 1;
     let response = await sendPostRequest(
       `${baseURL}/order/postOrder`,
       orderDetail

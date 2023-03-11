@@ -1,6 +1,7 @@
 export const cartCookie = "skabuy_cart";
 export const voucherCookie = "skabuy_voucher";
-export const baseURL = "http://localhost:5000";
+// export const baseURL = "http://localhost:5000";
+export const baseURL = "https://nodejs.skabuy.com";
 
 export const orderStatus = [
   { id: 0, data: "Processing" },
