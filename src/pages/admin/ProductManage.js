@@ -28,14 +28,19 @@ export default function ProductManage() {
     if (response.status == "success") {
       let arrTmpCateGory = [];
       response.data.map((item, index) => {
-        const posCategory = arrTmpCateGory.findIndex(x=>x.value === item.category_id);
-        if(posCategory===-1){
-            arrTmpCateGory.push({text:item.category_name,value:item.category_id})
+        const posCategory = arrTmpCateGory.findIndex(
+          (x) => x.value === item.category_id
+        );
+        if (posCategory === -1) {
+          arrTmpCateGory.push({
+            text: item.category_name,
+            value: item.category_id,
+          });
         }
-        if(index === response.data.length-1){
-            setfilterCategory(arrTmpCateGory)
+        if (index === response.data.length - 1) {
+          setfilterCategory(arrTmpCateGory);
         }
-      })
+      });
 
       setProducts(response.data);
     } else {
@@ -139,12 +144,13 @@ export default function ProductManage() {
     {
       title: "CATEGORY",
       key: "category",
-      filters: filterCategory,            
-      onFilter: (value, record) =>record.category_id === value,
-      render: record=>
-      <div style={{ textAlign: 'center', width: 100}}>
-          <span >{record.category_name}</span>
-      </div>
+      filters: filterCategory,
+      onFilter: (value, record) => record.category_id === value,
+      render: (record) => (
+        <div style={{ textAlign: "center", width: 100 }}>
+          <span>{record.category_name}</span>
+        </div>
+      ),
     },
     {
       title: "IMAGE",
@@ -157,7 +163,7 @@ export default function ProductManage() {
               height: 100,
               objectFit: "contain",
             }}
-            src={`https://skabuy.com/${record.product_image}`}
+            src={record.product_image}
           />
         );
       },

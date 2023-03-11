@@ -44,7 +44,7 @@ export default function EditProduct({
     </div>
   );
   const productImageProps = {
-    action: `${baseURL}/uploads/product-image`,
+    action: `${baseURL}/uploads/cloudinary-upload`,
     name: "image",
     listType: "picture-card",
     fileList: productImage,
@@ -62,7 +62,7 @@ export default function EditProduct({
   };
 
   const productImagesProps = {
-    action: `${baseURL}/uploads/product-images`,
+    action: `${baseURL}/uploads/cloudinary-upload`,
     name: "image",
     listType: "picture-card",
     fileList: productImageList,
@@ -111,8 +111,7 @@ export default function EditProduct({
     if (productImage.length > 0 && productImage[0].response != undefined) {
       setProductInfo((current) => ({
         ...current,
-        product_image:
-          "/Upload/ImageProduct/" + productImage[0].response.msg.filename,
+        product_image: productImage[0].response.secure_url,
       }));
     }
   }, [productImage]);
@@ -128,9 +127,7 @@ export default function EditProduct({
       ) {
         setProductInfo((current) => ({
           ...current,
-          image_description1:
-            "/Upload/ProductDescription/" +
-            productImageList[0].response.msg.filename,
+          image_description1: productImageList[0].response.secure_url,
         }));
       } else if (
         productImageList.length == 2 &&
@@ -139,12 +136,8 @@ export default function EditProduct({
       ) {
         setProductInfo((current) => ({
           ...current,
-          image_description1:
-            "/Upload/ProductDescription/" +
-            productImageList[0].response.msg.filename,
-          image_description2:
-            "/Upload/ProductDescription/" +
-            productImageList[1].response.msg.filename,
+          image_description1: productImageList[0].response.secure_url,
+          image_description2: productImageList[1].response.secure_url,
         }));
       }
     }
@@ -199,7 +192,7 @@ export default function EditProduct({
                 width={100}
                 height={100}
                 className="mr-2"
-                src={`http://localhost:3000/${productInfo.product_image}`}
+                src={productInfo.product_image}
               />
             )}
             <Upload {...productImageProps}>
@@ -419,13 +412,13 @@ export default function EditProduct({
                   width={100}
                   height={100}
                   className="mr-2"
-                  src={`http://localhost:3000/${productInfo.image_description1}`}
+                  src={productInfo.image_description1}
                 />
                 <img
                   width={100}
                   height={100}
                   className="mr-2"
-                  src={`http://localhost:3000/${productInfo.image_description2}`}
+                  src={productInfo.image_description2}
                 />
               </>
             )}

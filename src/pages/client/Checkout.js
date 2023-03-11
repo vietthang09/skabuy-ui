@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { formatdolla, showToast } from "../../util/helper";
 import { sendPostRequest } from "../../util/fetchAPI";
+import cookie from "react-cookies";
 export default function Checkout(props) {
   const navigate = useNavigate();
   const userRedux = useSelector((state) => state.user);
@@ -25,63 +26,53 @@ export default function Checkout(props) {
   };
 
   async function processCheckout() {
-    if (
-      userInfor.user_fullname === "" ||
-      userInfor.user_email === "" ||
-      userInfor.user_phone_number === "" ||
-      userInfor.user_gender === "-- Gender --" ||
-      userInfor.user_address === ""
-    ) {
-      showToast("WARNING", "Invalid information!");
-    } else {
-      if (edit) {
-        const response = await sendPostRequest(
-          `${CONSTANTS.baseURL}/user/editUser`,
-          userInfor
-        );
-        if (response.status == "error") {
-          showToast("ERROR", response.message);
-        } else {
-          cookie.save("user", userInfor);
-          showToast("SUCCESS", "Update successfully!");
-        }
+    if (edit) {
+      const response = await sendPostRequest(
+        `${CONSTANTS.baseURL}/user/editUser`,
+        userInfor
+      );
+      if (response.status == "error") {
+        showToast("ERROR", response.message);
+      } else {
+        cookie.save("user", userInfor);
+        setEdit(false);
       }
-      let dataProduct = [];
-      cart.map((item) => {
-        let newProduct = {
-          product_id: item.product_id,
-          product_name: item.product_name,
-          quantity: item.quantity,
-          description: item.characteristics.values,
-          hash: item.characteristics.characteristics_hash,
-          price: item.price,
-        };
-        dataProduct.push(newProduct);
-      });
-      var checkoutData = {
-        dataProduct: dataProduct,
-        user_id: userRedux.user.user_id,
-        fullname: userInfor.user_fullname,
-        email: userInfor.user_email,
-        phonenumber: userInfor.user_phone_number,
-        address: userInfor.user_address,
-        total_price: location.state.totalPayment,
-        method_payment: 1,
-        paymentInfo: null,
-        voucher:
-          location.state.voucher != undefined
-            ? location.state.voucher.voucher_infor
-            : null,
-      };
-      navigate("/process-checkout", {
-        state: {
-          checkoutData: checkoutData,
-          subtotal: location.state.subtotal,
-          totalPayment: location.state.totalPayment,
-          voucher: location.state.voucherInfor,
-        },
-      });
     }
+    let dataProduct = [];
+    cart.map((item) => {
+      let newProduct = {
+        product_id: item.product_id,
+        product_name: item.product_name,
+        quantity: item.quantity,
+        description: item.characteristics.values,
+        hash: item.characteristics.characteristics_hash,
+        price: item.price,
+      };
+      dataProduct.push(newProduct);
+    });
+    var checkoutData = {
+      dataProduct: dataProduct,
+      user_id: userRedux.user.user_id,
+      fullname: userInfor.user_fullname,
+      email: userInfor.user_email,
+      phonenumber: userInfor.user_phone_number,
+      address: userInfor.user_address,
+      total_price: location.state.totalPayment,
+      method_payment: 1,
+      paymentInfo: null,
+      voucher:
+        location.state.voucher != undefined
+          ? location.state.voucher.voucher_infor
+          : null,
+    };
+    navigate("/process-checkout", {
+      state: {
+        checkoutData: checkoutData,
+        subtotal: location.state.subtotal,
+        totalPayment: location.state.totalPayment,
+        voucher: location.state.voucherInfor,
+      },
+    });
   }
 
   useEffect(() => {

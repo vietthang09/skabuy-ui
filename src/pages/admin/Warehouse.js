@@ -18,15 +18,20 @@ export default function Warehouse() {
     if (response.status == "success") {
       let arrTmpCateGory = [];
       response.data.map((item, index) => {
-        const posCategory = arrTmpCateGory.findIndex(x=>x.value === item.category_id);
-        if(posCategory===-1){
-            arrTmpCateGory.push({text:item.category_name,value:item.category_id})
+        const posCategory = arrTmpCateGory.findIndex(
+          (x) => x.value === item.category_id
+        );
+        if (posCategory === -1) {
+          arrTmpCateGory.push({
+            text: item.category_name,
+            value: item.category_id,
+          });
         }
-        if(index === response.data.length-1){
-            setfilterCategory(arrTmpCateGory)
+        if (index === response.data.length - 1) {
+          setfilterCategory(arrTmpCateGory);
         }
-      })
-      
+      });
+
       setProducts(response.data);
     } else {
       showToast("ERROR", "There are some mistake!");
@@ -37,12 +42,13 @@ export default function Warehouse() {
     {
       title: "Category",
       key: "category_name",
-      filters: filterCategory,            
-      onFilter: (value, record) =>record.category_id === value,
-      render: record=>
-      <div style={{ textAlign: 'center'}}>
-          <span >{record.category_name}</span>
-      </div>
+      filters: filterCategory,
+      onFilter: (value, record) => record.category_id === value,
+      render: (record) => (
+        <div style={{ textAlign: "center" }}>
+          <span>{record.category_name}</span>
+        </div>
+      ),
     },
     {
       title: "IMAGE",
@@ -55,7 +61,7 @@ export default function Warehouse() {
               height: 100,
               objectFit: "contain",
             }}
-            src={`http://localhost:3000/${record.product_image}`}
+            src={record.product_image}
           />
         );
       },

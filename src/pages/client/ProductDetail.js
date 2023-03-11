@@ -22,7 +22,7 @@ const imagesSliderSettings = {
   slidesToShow: 1,
   slidesToScroll: 1,
 };
-
+import { HeartOutlined } from "@ant-design/icons";
 export default function ProductDetail() {
   const { slug } = useParams();
 
@@ -137,28 +137,52 @@ export default function ProductDetail() {
     );
   }
 
+  async function addToWishlist(productId) {
+    var requestData = {
+      data: {
+        userId: userRedux.user.user_id,
+        productId: productId,
+      },
+    };
+    const response = await fetchAPI.sendPostRequest(
+      `${baseURL}/wishlist/create`,
+      requestData
+    );
+    if (response.status == "success") {
+      showToast("SUCCESS", response.data);
+    } else {
+      showToast("ERROR", response.message);
+    }
+  }
+
   function ProductInfoSection() {
     return (
       <div>
         {productInfor.product_discount > 0 && (
-          <>
-            <span
-              className="text-white rounded px-2 font-weight-bold"
-              style={{ background: "rgb(176, 0, 0)" }}
-            >
-              Instant Savings
-            </span>
-            <span className="h5 d-block text-danger">
-              {`${formatdolla(
-                productInfor.product_price -
-                  discountPrice(
-                    productInfor.product_price,
-                    productInfor.product_discount
-                  ),
-                "$"
-              )} off with Instant Savings`}
-            </span>
-          </>
+          <div className="d-flex justify-content-between">
+            <div>
+              <span
+                className="text-white rounded px-2 font-weight-bold"
+                style={{ background: "rgb(176, 0, 0)" }}
+              >
+                Instant Savings
+              </span>
+              <span className="h5 d-block text-danger">
+                {`${formatdolla(
+                  productInfor.product_price -
+                    discountPrice(
+                      productInfor.product_price,
+                      productInfor.product_discount
+                    ),
+                  "$"
+                )} off with Instant Savings`}
+              </span>
+            </div>
+            <HeartOutlined
+              style={{ fontSize: 32, cursor: "pointer" }}
+              onClick={() => addToWishlist(productInfor.product_id)}
+            />
+          </div>
         )}
         <h3>{productInfor.product_name}</h3>
         <div className="d-flex">
@@ -296,92 +320,6 @@ export default function ProductDetail() {
         <h5>Description</h5>
         <hr />
         <div>{parse(productInfor.product_description)}</div>
-      </div>
-    );
-  }
-
-  function CommentsSection() {
-    return (
-      <div className="mt-5 p-4 bg-white rounded">
-        <h5>Reviews ({comments.length})</h5>
-
-        {userRedux.user !== undefined && userRedux.user !== null ? (
-          <div className="row" style={{ padding: "30px" }}>
-            <div className="col-md-6">
-              {comments && comments.length > 0 && (
-                <CommentList comments={currentComments} />
-              )}
-              <Pagination
-                totalProducts={comments.length}
-                productsPerPage={productsPerPage}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-              />
-            </div>
-            <div className="col-md-6">
-              <h4 className="mb-4">Leave a review</h4>
-              <div>
-                <div className="form-group">
-                  <label htmlFor="name">Your Name :</label>{" "}
-                  <b>{userRedux.user.user_fullname}</b>
-                </div>
-                <div className="d-flex form-group">
-                  <p className="mb-0 mr-2">Your Rating * :</p>
-                  <div className="text-primary">
-                    {[...Array(5)].map((star, index) => {
-                      index += 1;
-                      return (
-                        <i
-                          key={index}
-                          className={`${
-                            index <= rating ? "fas" : "far"
-                          } fa-star`}
-                          onClick={() => setRating(index)}
-                          onDoubleClick={() => {
-                            setRating(0);
-                          }}
-                        ></i>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="message">Your Review *</label>
-                  <textarea
-                    id="message"
-                    cols="30"
-                    rows="5"
-                    className="form-control"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                  ></textarea>
-                </div>
-                <div className="form-group mb-0">
-                  <button
-                    className="btn btn-info px-3"
-                    onClick={() => onCreateCommentHandler()}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="row" style={{ padding: "20px" }}>
-            <div className="col-md-12">
-              {comments && comments.length > 0 && (
-                <CommentList comments={currentComments} />
-              )}
-              <Pagination
-                totalProducts={comments.length}
-                productsPerPage={productsPerPage}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-              />
-            </div>
-          </div>
-        )}
       </div>
     );
   }

@@ -250,10 +250,9 @@ export const OrderBox = () => {
                 <div className="col-md-2">Address:</div>
                 <div className="col-md-6">{currentOrder.address}</div>
                 <div className="col-md-2">Shipping:</div>
-                <div className="col-md-2">{formatdolla(5, "$")}</div>
+                <div className="col-md-2">{formatdolla(0, "$")}</div>
 
-                <div className="col-md-2">Message:</div>
-                <div className="col-md-6">{currentOrder.message}</div>
+                <div className="col-md-8"></div>
                 {currentOrder.discount ? (
                   <>
                     <div className="col-md-2">Voucher:</div>
@@ -270,14 +269,7 @@ export const OrderBox = () => {
                   <div className="col-md-4"></div>
                 )}
 
-                <div className="col-md-2">Payment method:</div>
-                <div className="col-md-6">
-                  {currentOrder.method_payment == 0
-                    ? "Cash on delivery"
-                    : currentOrder.method_payment == 1
-                    ? "Pay with Paypal"
-                    : "Pay with VNPay"}
-                </div>
+                <div className="col-md-8"></div>
                 <div className="col-md-2">
                   <h5>Total:</h5>
                 </div>
