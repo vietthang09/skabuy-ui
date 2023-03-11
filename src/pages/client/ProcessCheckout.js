@@ -154,7 +154,7 @@ export default function ProcessCheckout() {
             <h5 className="text-center">OR</h5>
             {clientSecret && (
               <Elements options={options} stripe={stripePromise}>
-                <CheckoutForm />
+                <CheckoutForm orderDetail={location.state.checkoutData} />
               </Elements>
             )}
           </div>

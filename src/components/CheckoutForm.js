@@ -5,14 +5,18 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-export default function CheckoutForm() {
+import { showToast } from "../util/helper";
+import { sendPostRequest } from "../util/fetchAPI";
+import { baseURL, cartCookie } from "../util/constants";
+import { useNavigate } from "react-router";
+export default function CheckoutForm({ orderDetail }) {
   const stripe = useStripe();
   const elements = useElements();
 
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [createOrder, setCreateOrder] = useState(false);
   useEffect(() => {
     if (!stripe) {
       return;
@@ -55,13 +59,22 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
-      },
-    });
+    const { error } = await stripe
+      .confirmPayment({
+        elements,
+        confirmParams: {
+          // Make sure to change this to your payment completion page
+          return_url: "http://localhost:3000",
+        },
+        redirect: "if_required",
+      })
+      .then(function(result) {
+        if (result.paymentIntent.status == "succeeded") {
+          setCreateOrder(true);
+        } else {
+          showToast("ERROR", result.error);
+        }
+      });
 
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
@@ -80,7 +93,28 @@ export default function CheckoutForm() {
   const paymentElementOptions = {
     layout: "tabs",
   };
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (createOrder) {
+      postOrder();
+    }
+  }, [createOrder]);
 
+  async function postOrder() {
+    let response = await sendPostRequest(
+      `${baseURL}/order/postOrder`,
+      orderDetail
+    );
+    if (response.status == "success") {
+      setCreateOrder(false);
+      localStorage.removeItem(cartCookie);
+      navigate("/");
+      showToast("SUCCESS", "Order successfully!");
+      setTimeout(function() {
+        window.location.reload(false);
+      }, 2000);
+    }
+  }
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <LinkAuthenticationElement
@@ -88,7 +122,11 @@ export default function CheckoutForm() {
         onChange={(e) => setEmail(e.target.value)}
       />
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
+      <button
+        className="btn btn-info rounded mt-3"
+        disabled={isLoading || !stripe || !elements}
+        id="submit"
+      >
         <span id="button-text">
           {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
         </span>
