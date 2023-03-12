@@ -8,6 +8,7 @@ import AccountVerificationForm from "./AccountVerificationForm";
 import { useEffect, useState } from "react";
 import { sendGetRequest } from "../../../util/fetchAPI";
 import { baseURL } from "../../../util/constants";
+import NavBar from "./Navbar";
 export const OrderBox = () => {
   const userRedux = useSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -143,7 +144,7 @@ export const OrderBox = () => {
         dataTmp = orders.filter((e) => e.status == 4);
       }
       //sort by date soon as soon
-      dataTmp.sort(function(a, b) {
+      dataTmp.sort(function (a, b) {
         return new Date(b.create_at) - new Date(a.create_at);
       });
     }
@@ -214,9 +215,9 @@ export const OrderBox = () => {
                           {`${formatdolla(
                             item.product_discount
                               ? discountPrice(
-                                  item.product_price,
-                                  item.product_discount
-                                )
+                                item.product_price,
+                                item.product_discount
+                              )
                               : item.product_price,
                             "$"
                           )} x ${item.quantity}`}
@@ -227,9 +228,9 @@ export const OrderBox = () => {
                           {formatdolla(
                             item.product_discount
                               ? discountPrice(
-                                  item.product_price,
-                                  item.product_discount
-                                ) * item.quantity
+                                item.product_price,
+                                item.product_discount
+                              ) * item.quantity
                               : item.product_price * item.quantity,
                             "$"
                           )}
@@ -250,18 +251,19 @@ export const OrderBox = () => {
                 <div className="col-md-2">Address:</div>
                 <div className="col-md-6">{currentOrder.address}</div>
                 <div className="col-md-2">Shipping:</div>
-                <div className="col-md-2">{formatdolla(0, "$")}</div>
+                <div className="col-md-2">{formatdolla(5, "$")}</div>
 
-                <div className="col-md-8"></div>
+                <div className="col-md-2">Message:</div>
+                <div className="col-md-6">{currentOrder.message}</div>
                 {currentOrder.discount ? (
                   <>
                     <div className="col-md-2">Voucher:</div>
                     <div className="col-md-2">{`- ${formatdolla(
                       currentOrder.total_price -
-                        discountPrice(
-                          currentOrder.total_price,
-                          currentOrder.discount
-                        ),
+                      discountPrice(
+                        currentOrder.total_price,
+                        currentOrder.discount
+                      ),
                       "$"
                     )}`}</div>
                   </>
@@ -269,7 +271,14 @@ export const OrderBox = () => {
                   <div className="col-md-4"></div>
                 )}
 
-                <div className="col-md-8"></div>
+                <div className="col-md-2">Payment method:</div>
+                <div className="col-md-6">
+                  {currentOrder.method_payment == 0
+                    ? "Cash on delivery"
+                    : currentOrder.method_payment == 1
+                      ? "Pay with Paypal"
+                      : "Pay with VNPay"}
+                </div>
                 <div className="col-md-2">
                   <h5>Total:</h5>
                 </div>
@@ -286,28 +295,37 @@ export const OrderBox = () => {
               </div>
             </Modal>
           )}
-          <div className="p-4 bg-white rounded">
-            <h5>My orders</h5>
-            <Tabs defaultActiveKey="0" centered onChange={(e) => setKeyTab(e)}>
-              <TabPane tab="All orders" key="0">
-                <TabContent />
-              </TabPane>
-              <TabPane tab="Processing" key="1">
-                <TabContent />
-              </TabPane>
-              <TabPane tab="Delivering" key="2">
-                <TabContent />
-              </TabPane>
-              <TabPane tab="Delivered" key="3">
-                <TabContent />
-              </TabPane>
-              <TabPane tab="Cancelled" key="4">
-                <TabContent />
-              </TabPane>
-              <TabPane tab="Refund" key="5">
-                <TabContent />
-              </TabPane>
-            </Tabs>
+          <div className="laptop:w-9/12 mobile:w-11/12 w-full h-screen m-auto">
+            <div className="flex mobile:flex-row flex-col mt-16 pt-3">
+              <div className="mobile:w-3/12 w-full">
+                <NavBar />
+              </div>
+              <div className="mobile:w-9/12 w-full">
+                <div className="p-4 bg-white rounded">
+                  <h5>My orders</h5>
+                  <Tabs defaultActiveKey="0" centered onChange={(e) => setKeyTab(e)}>
+                    <TabPane tab="All orders" key="0">
+                      <TabContent />
+                    </TabPane>
+                    <TabPane tab="Processing" key="1">
+                      <TabContent />
+                    </TabPane>
+                    <TabPane tab="Delivering" key="2">
+                      <TabContent />
+                    </TabPane>
+                    <TabPane tab="Delivered" key="3">
+                      <TabContent />
+                    </TabPane>
+                    <TabPane tab="Cancelled" key="4">
+                      <TabContent />
+                    </TabPane>
+                    <TabPane tab="Refund" key="5">
+                      <TabContent />
+                    </TabPane>
+                  </Tabs>
+                </div>
+              </div>
+            </div>
           </div>
         </>
       )}

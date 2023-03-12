@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { showToast } from "../../util/helper";
 import cookie from "react-cookies";
-import { OrderBox } from "./components/OrderBox";
+import Navbar from './components/Navbar'
 import { useNavigate } from "react-router";
 import { baseURL } from "../../util/constants";
 function Profile() {
@@ -176,13 +176,13 @@ function Profile() {
   return (
     <>
       {userRedux.user != undefined && userRedux.user != null && (
-        <div className="container mt-5 pt-5">
-          <div className="row">
-            <div className="col-lg-4">
-              <ProfileSection />
+        <div className="laptop:w-9/12 mobile:w-11/12 w-full h-full m-auto">
+          <div className="flex mobile:flex-row flex-col mt-16 pt-3">
+            <div className="mobile:w-3/12 w-full">
+              <Navbar />
             </div>
-            <div className="col-lg-8">
-              <OrderBox />
+            <div className="mobile:w-9/12 w-full">
+              <ProfileSection />
             </div>
           </div>
         </div>

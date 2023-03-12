@@ -13,6 +13,7 @@ import Checkout from "../pages/client/Checkout";
 import ProcessCheckout from "../pages/client/ProcessCheckout";
 import AccountVerification from "../pages/client/AccountVerification";
 import LoginAdmin from "../pages/admin/LoginAdmin";
+import { OrderBox } from "../pages/client/components/OrderBox";
 import Admin from "../pages/admin/Admin";
 export default function Container() {
   const [updateCart, setUpdateCart] = useState(false);
@@ -29,6 +30,7 @@ export default function Container() {
         />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/my-order" element={<OrderBox />} />
         <Route path="/search/:keyword" element={<SearchResult />} />
         <Route path="/:category_slug" element={<ProductByCategory />} />
         <Route path="/detail/:slug" element={<ProductDetail />} />

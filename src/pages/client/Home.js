@@ -5,14 +5,27 @@ import { baseURL } from "../../util/constants";
 import HomeCarousel from "./components/HomeCarousel";
 import ProductItem from "../../components/ProductItem";
 import Slider from "react-slick";
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 import CategoryItem from "../../components/CategoryItem";
 import Spinner from "../../components/Spinner";
+
+// const NextArrow = (props) => {
+//   const { onClick } = props;
+//   return (
+//     <div onClick={onClick}>
+//       <button>tien</button>
+//     </div>
+//   )
+// }
+
 const sliderSettings = {
   dots: true,
   centerPadding: "10px",
   infinite: true,
   speed: 500,
   arrows: false,
+  // nextArrow: <NextArrow />,
   slidesToShow: 6,
   slidesToScroll: 6,
   responsive: [
@@ -24,6 +37,24 @@ const sliderSettings = {
       },
     },
   ],
+};
+
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 6,
+    slidesToSlide: 6
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 4,
+    slidesToSlide: 4
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 2,
+    slidesToSlide: 2
+  }
 };
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -102,11 +133,32 @@ export default function Home() {
       <div className="p-2 my-2">
         <h5 className="pl-3">Promotional products</h5>
         {promotionalProducts.length > 0 ? (
-          <Slider {...sliderSettings}>
+          // <div className='flex space-x-2 overflow-y-hidden overflow-x-clip'>
+          //   {promotionalProducts.map((product, index) => {
+          //     return (
+          //       <ProductItem product={product} key={index} />
+          //     )
+          //   })}
+          // </div>
+          <Carousel
+            swipeable={true}
+            draggable={true}
+            showDots={true}
+            responsive={responsive}
+            infinite={false}
+            keyBoardControl={true}
+          >
             {promotionalProducts.map((product, index) => {
-              return <ProductItem product={product} key={index} />;
+              return (
+                <ProductItem product={product} key={index} />
+              )
             })}
-          </Slider>
+          </Carousel>
+          // <Slider {...sliderSettings}>
+          //   {promotionalProducts.map((product, index) => {
+          //     return <ProductItem product={product} key={index} />;
+          //   })}
+          // </Slider>
         ) : (
           <Spinner />
         )}
