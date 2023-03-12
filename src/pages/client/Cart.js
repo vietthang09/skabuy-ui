@@ -97,7 +97,7 @@ export default function Cart(props) {
   }, [cart]);
 
   return (
-    <div className="container pt-5 mt-5">
+    <div className="container py-5 mt-lg-5">
       <div className="row">
         <div className="col-lg-8 table-responsive">
           <table className="table table-light table-borderless table-hover text-center mb-0">

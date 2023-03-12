@@ -1,13 +1,18 @@
 import Axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "../../util/helper";
 import cookie from "react-cookies";
-import Navbar from './components/Navbar'
+import Navbar from "./components/Navbar";
 import { useNavigate } from "react-router";
 import { baseURL } from "../../util/constants";
+import { logoutUser } from "../../redux/actions/logoutUser";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import { Button, Modal } from "antd";
+const { confirm } = Modal;
 function Profile() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userRedux = useSelector((state) => state.user);
 
   // states for profile
@@ -47,6 +52,24 @@ function Profile() {
       });
     }
   };
+
+  const showConfirm = () => {
+    confirm({
+      title: "Do you Want to logout?",
+      icon: <ExclamationCircleFilled />,
+      onOk() {
+        navigate("/");
+        cookie.remove("token");
+        cookie.remove("user");
+        showToast("SUCCESS", "Logout successful");
+        dispatch(logoutUser());
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
+
   useEffect(() => {
     if (userRedux.user == undefined && userRedux.user == null) {
       navigate("/login");
@@ -161,13 +184,14 @@ function Profile() {
               }
             />
           </div>
-          <div className="col-md-12 form-group">
+          <div className="col-md-12 form-group d-flex justify-content-between">
             <button
               className="btn btn-info success"
               onClick={() => onSaveHandler()}
             >
               Save
             </button>
+            <Button onClick={showConfirm}>Logout</Button>
           </div>
         </div>
       </div>

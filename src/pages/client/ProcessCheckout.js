@@ -63,7 +63,7 @@ export default function ProcessCheckout() {
   };
 
   return (
-    <div className="container mt-5 pt-5">
+    <div className="container py-5 mt-lg-5">
       <div className="row">
         <div className="col-lg-6">
           <div className="bg-white p-4 rounded">

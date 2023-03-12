@@ -17,9 +17,8 @@ export default function NavBar() {
   const [categories, setCategories] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-
+  const token = cookie.load("token");
   function CheckLogin() {
-    const token = cookie.load("token");
     if (token == null || token == undefined) {
       return (
         <>
@@ -31,12 +30,6 @@ export default function NavBar() {
               />
               <h6 className="m1-2 font-weight-bold text-white">Login</h6>
             </div>
-          </Link>
-          <Link
-            to="/login"
-            className="d-flex d-lg-none justify-content-center text-info"
-          >
-            Login
           </Link>
         </>
       );
@@ -55,10 +48,12 @@ export default function NavBar() {
             <div className="justify-content-between d-none d-lg-flex">
               <Link to="/wishlist" className="d-flex justify-content-center">
                 <div>
-                  <HeartOutlined
-                    className="text-white w-100"
-                    style={{ fontSize: 24 }}
-                  />
+                  <div className="d-flex justify-content-center">
+                    <HeartOutlined
+                      className="text-white"
+                      style={{ fontSize: 24 }}
+                    />
+                  </div>
                   <h6 className="text-white">Wishlist</h6>
                 </div>
               </Link>
@@ -67,19 +62,23 @@ export default function NavBar() {
                 className="d-flex justify-content-center mx-3"
               >
                 <div>
-                  <ShoppingCartOutlined
-                    className="text-white w-100"
-                    style={{ fontSize: 24 }}
-                  />
+                  <div className="d-flex justify-content-center">
+                    <ShoppingCartOutlined
+                      className="text-white"
+                      style={{ fontSize: 24 }}
+                    />
+                  </div>
                   <h6 className="text-white">Cart</h6>
                 </div>
               </Link>
               <Link to="/profile" className="d-flex justify-content-center">
                 <div>
-                  <UserOutlined
-                    className="text-white w-100"
-                    style={{ fontSize: 24 }}
-                  />
+                  <div className="d-flex justify-content-center">
+                    <UserOutlined
+                      className="text-white"
+                      style={{ fontSize: 24 }}
+                    />
+                  </div>
                   <h6 className="text-white">Profile</h6>
                 </div>
               </Link>
@@ -192,12 +191,18 @@ export default function NavBar() {
             />
           </div>
 
-          <Link to="/shoppingcart">
-            <ShoppingCartOutlined
-              className="text-white"
-              style={{ fontSize: 24 }}
-            />
-          </Link>
+          {token != null || token != undefined ? (
+            <Link to="/shoppingcart">
+              <ShoppingCartOutlined
+                className="text-white"
+                style={{ fontSize: 24 }}
+              />
+            </Link>
+          ) : (
+            <Link to="/login">
+              <UserOutlined className="text-white" style={{ fontSize: 24 }} />
+            </Link>
+          )}
         </div>
 
         <div className="fixed-bottom px-3 py-2 bg-white border-top">

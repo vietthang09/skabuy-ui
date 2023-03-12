@@ -80,7 +80,7 @@ export default function Checkout(props) {
   }, []);
 
   return (
-    <div className="container mt-5 pt-5">
+    <div className="container py-5 mt-lg-5">
       <div className="row">
         <div className="col-lg-8 bg-white p-4 rounded">
           <h5>Billing Address</h5>
